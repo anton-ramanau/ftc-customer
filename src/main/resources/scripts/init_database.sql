@@ -1,0 +1,1 @@
+CREATE DATABASE ftc_customer_db;
