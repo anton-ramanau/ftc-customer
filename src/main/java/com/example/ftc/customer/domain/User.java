@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String password;
     private Boolean active;
 
-    @ElementCollection
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable (name = "roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;

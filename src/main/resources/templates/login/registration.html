@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<h1>Create your own profile</h1>
+<main>
+    <section>
+        <h2>Insert username and password</h2>
+        <form th:action="@{/registration}" th:object="${user}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <label>Username</label>
+            <input type="text" th:field="*{username}" placeholder="username">
+            <label>Password</label>
+            <input type="text" th:field="*{password}" placeholder="yourpassword">
+            <button type="submit">Create profile</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

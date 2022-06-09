@@ -1,15 +1,13 @@
 package com.example.ftc.customer.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller("/user")
+@Controller
 public class UserController {
 
-    @GetMapping
+    @GetMapping("/user")
     public String userMain() {
-
-        return "user_page";
+        return "user/index";
     }
 }
