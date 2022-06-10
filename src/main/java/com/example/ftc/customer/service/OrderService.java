@@ -1,14 +1,11 @@
 package com.example.ftc.customer.service;
 
-import com.example.ftc.customer.repository.OrderRepository;
-import org.springframework.stereotype.Service;
+import com.example.ftc.customer.command.OrderCommand;
+import com.example.ftc.customer.domain.Order;
 
-@Service
-public class OrderService {
-    private final OrderRepository orderRepository;
+public interface OrderService {
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    Iterable<OrderCommand> findOrdersByUserId(Long userId);
 
+    Iterable<OrderCommand> findOrdersByUserName(String userName);
 }

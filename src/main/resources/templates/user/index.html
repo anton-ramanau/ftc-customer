@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Hello user</title>
+    <title>User Page</title>
 </head>
 <body>
-<h1>Hello user</h1>
+<h1 th:text="'Hello ' + ${user.username}">Hello user</h1>
 <main>
     <section>
-        <h2>-----</h2>
+        <h2>All orders</h2>
+        <ul th:each="order : ${orders}">
+        <li th:text="${order.id}">1</li>
+        </ul>
 
     </section>
 </main>
