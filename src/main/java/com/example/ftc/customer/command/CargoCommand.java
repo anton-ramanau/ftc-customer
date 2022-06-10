@@ -1,5 +1,7 @@
-package com.example.ftc.customer.domain;
+package com.example.ftc.customer.command;
 
+import com.example.ftc.customer.domain.CargoType;
+import com.example.ftc.customer.domain.Order;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,20 +10,14 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "cargoes")
-public class Cargo {
+public class CargoCommand {
 
-    public Cargo() {
+    public CargoCommand() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-
-    @Enumerated(EnumType.STRING)
     private CargoType cargoType;
-
     private String cargoSize;
     private String loadAddress;
     private String unloadAddress;
@@ -30,8 +26,5 @@ public class Cargo {
     private String loadCustom;
     private String unloadCustom;
     private String description;
-
-
-
 
 }
