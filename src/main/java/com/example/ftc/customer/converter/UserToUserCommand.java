@@ -14,7 +14,7 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
             return null;
         }
         UserCommand userCommand = new UserCommand();
-        userCommand.setName(user.getUsername());
+        userCommand.setUsername(user.getUsername());
         return userCommand;
     }
 }

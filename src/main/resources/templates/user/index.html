@@ -9,10 +9,7 @@
 <main>
     <section>
         <h2>All orders</h2>
-        <ul th:each="order : ${orders}">
-            <li th:text="${order.id}">1</li>
-        </ul>
-        <a href="/user/order/new">create new order</a>
+        <a href="/user/orders">show orders</a>
     </section>
 </main>
 </body>

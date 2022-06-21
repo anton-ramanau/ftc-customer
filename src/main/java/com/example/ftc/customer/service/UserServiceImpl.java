@@ -37,4 +37,15 @@ public class UserServiceImpl implements UserService {
     public UserCommand findUserCommandByUsername(String username) {
         return userToUserCommand.convert(findUserByUsername(username));
     }
+
+    @Override
+    public UserCommand findUserCommandById(Long userId) {
+        User user = findUserById(userId);
+        return userToUserCommand.convert(user);
+    }
+
+    @Override
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
 }

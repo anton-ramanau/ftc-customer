@@ -16,4 +16,8 @@ public interface UserService extends UserDetailsService {
     User findUserByUsername(String username);
 
     UserCommand findUserCommandByUsername(String username);
+
+    UserCommand findUserCommandById(Long userId);
+
+    User findUserById(Long userId);
 }

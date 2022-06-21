@@ -38,19 +38,6 @@
                   <td th:text="${cargosEach.description}">Description</td>
                 </div>
             </tr>
-            <tr>
-                <div th:object="${cargo}">
-                    <td><input type="text" th:field="*{cargoType}"></td>
-                    <td><input type="text" th:field="*{cargoSize}"></td>
-                    <td><input type="text" th:field="*{loadAddress}"></td>
-                    <td><input type="text" th:field="*{unloadAddress}"></td>
-                    <td><input type="text" th:field="*{loadCustom}"></td>
-                    <td><input type="text" th:field="*{unloadCustom}"></td>
-                    <td><input type="text" th:field="*{loadDate}"></td>
-                    <td><input type="text" th:field="*{unloadDate}"></td>
-                    <td><input type="text" th:field="*{description}"></td>
-                </div>
-            </tr>
             </tbody>
         </table>
             <button type="submit">add new cargo</button>

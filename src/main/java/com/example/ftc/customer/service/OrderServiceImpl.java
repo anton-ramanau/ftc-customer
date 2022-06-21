@@ -2,6 +2,7 @@ package com.example.ftc.customer.service;
 
 import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.converter.OrderToOrderCommand;
+import com.example.ftc.customer.domain.Order;
 import com.example.ftc.customer.domain.User;
 import com.example.ftc.customer.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,10 @@ public class OrderServiceImpl implements OrderService{
     public Iterable<OrderCommand> findOrdersCommandByUserName(String userName) {
         User user = userService.findUserByUsername(userName);
         return findOrdersCommandByUserId(user.getId());
+    }
+
+    @Override
+    public Order save(Order order) {
+        return orderRepository.save(order);
     }
 }

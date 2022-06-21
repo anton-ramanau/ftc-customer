@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders list</title>
+</head>
+<body>
+<main>
+    <section>
+        <h2 th:text="${'Available orders of ' + user.getUsername}">Available orders of</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>order id</th>
+                <th>order status</th>
+                <th>order price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}">order id</td>
+                <td th:text="${order.orderStatus}">order status</td>
+                <td th:text="${order.price}">order price</td>
+            </tr>
+            </tbody>
+        </table>
+        <form th:action="@{/user/order/new}" method="post">
+            <button type="submit">New order</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

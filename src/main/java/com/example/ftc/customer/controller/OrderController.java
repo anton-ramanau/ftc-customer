@@ -3,6 +3,7 @@ package com.example.ftc.customer.controller;
 import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.command.UserCommand;
+import com.example.ftc.customer.domain.Order;
 import com.example.ftc.customer.service.CargoService;
 import com.example.ftc.customer.service.OrderService;
 import com.example.ftc.customer.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -26,26 +28,22 @@ public class OrderController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/order/new")
-    public String createNewOrder(Principal principal, Model model) {
-        OrderCommand order = new OrderCommand();
+    @PostMapping("/user/order/new")
+    public String createNewOrder(Principal principal) {
+        Order order = new Order();
+        order.setUser(userService.findUserByUsername(principal.getName()));
+        orderService.save(order);
+
+        return "redirect:/user/orders";
+    }
+
+    @GetMapping("/user/orders")
+    public String getOrdersView(Principal principal, Model model) {
+        Iterable<OrderCommand> orders = orderService.findOrdersCommandByUserName(principal.getName());
         UserCommand userCommand = userService.findUserCommandByUsername(principal.getName());
-        CargoCommand cargo = new CargoCommand();
-        order.setUser(userCommand);
-        model.addAttribute("order", order);
-        model.addAttribute("cargo", cargo);
+        model.addAttribute("orders", orders);
+        model.addAttribute("user", userCommand);
 
-        return "order/newOrder";
-    }
-
-    @PostMapping
-    public String createNewOrder() {
-
-        return "redirect:user/index";
-    }
-
-    @PostMapping("/user/order/cargo/new")
-    public String createNewCargo(OrderCommand order, CargoCommand cargo) {
-        return "";
+        return "order/ordersList";
     }
 }
