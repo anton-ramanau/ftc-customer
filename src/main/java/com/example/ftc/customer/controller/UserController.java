@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String userMain(Principal principal, Model model) {
-        model.addAttribute("orders", orderService.findOrdersByUserName(principal.getName()));
+        model.addAttribute("orders", orderService.findOrdersCommandByUserName(principal.getName()));
         model.addAttribute("user", userService.findUserByUsername(principal.getName()));
         return "user/index";
     }

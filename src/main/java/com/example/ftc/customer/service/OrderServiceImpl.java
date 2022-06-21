@@ -22,15 +22,15 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Iterable<OrderCommand> findOrdersByUserId(Long userId) {
+    public Iterable<OrderCommand> findOrdersCommandByUserId(Long userId) {
         Set<OrderCommand> orders = new HashSet<>();
         orderRepository.findOrdersByUserId(userId).forEach(order -> orders.add(orderToOrderCommand.convert(order)));
         return orders;
     }
 
     @Override
-    public Iterable<OrderCommand> findOrdersByUserName(String userName) {
+    public Iterable<OrderCommand> findOrdersCommandByUserName(String userName) {
         User user = userService.findUserByUsername(userName);
-        return findOrdersByUserId(user.getId());
+        return findOrdersCommandByUserId(user.getId());
     }
 }

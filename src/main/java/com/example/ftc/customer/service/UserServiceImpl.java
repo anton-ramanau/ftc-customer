@@ -23,14 +23,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByUsername(username);
     }
 
+    @Override
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    @Override
     public User findUserByUsername(String username) {
        return userRepository.findUserByUsername(username);
     }
 
+    @Override
     public UserCommand findUserCommandByUsername(String username) {
         return userToUserCommand.convert(findUserByUsername(username));
     }
