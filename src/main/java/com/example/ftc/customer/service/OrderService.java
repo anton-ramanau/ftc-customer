@@ -7,15 +7,11 @@ public interface OrderService {
 
     Iterable<OrderCommand> findOrdersCommandByUserId(Long userId);
 
-    Iterable<OrderCommand> findOrdersCommandByUserName(String userName);
-
     Order saveOrder(Order order);
-
-    Order findOrderByUserNameAndOrderId(String userName, Long orderId);
-
-    OrderCommand findOrderCommandByUserNameAndOrderId(String userName, Long orderId);
 
     Order findOrderById(Long orderId);
 
+    Order findOrderByIdAndUserId(Long orderId, Long userId);
 
+    OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId);
 }

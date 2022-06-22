@@ -34,11 +34,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserCommand findUserCommandByUsername(String username) {
-        return userToUserCommand.convert(findUserByUsername(username));
-    }
-
-    @Override
     public UserCommand findUserCommandById(Long userId) {
         User user = findUserById(userId);
         return userToUserCommand.convert(user);

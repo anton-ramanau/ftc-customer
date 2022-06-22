@@ -1,28 +1,27 @@
 package com.example.ftc.customer.controller;
 
-import com.example.ftc.customer.service.OrderService;
+import com.example.ftc.customer.command.UserCommand;
 import com.example.ftc.customer.service.UserService;
+import com.example.ftc.customer.utils.ServerUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
 
-    private final OrderService orderService;
     private final UserService userService;
 
-    public UserController(OrderService orderService, UserService userService) {
-        this.orderService = orderService;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/user")
-    public String userMain(Principal principal, Model model) {
-        model.addAttribute("orders", orderService.findOrdersCommandByUserName(principal.getName()));
-        model.addAttribute("user", userService.findUserByUsername(principal.getName()));
+    public String userMain(HttpServletRequest request, Model model) {
+        UserCommand userCommand = userService.findUserCommandById(ServerUtils.getSessionUserId(request));
+        model.addAttribute("user", userCommand);
         return "user/index";
     }
 }

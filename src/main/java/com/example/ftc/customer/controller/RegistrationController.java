@@ -25,6 +25,7 @@ public class RegistrationController {
         return "login/registration";
     }
 
+    //todo: check user name without upper chars
     @PostMapping("/registration")
     public String createNewUser(User user) {
         if (userService.findUserByUsername(user.getUsername()) == null) {

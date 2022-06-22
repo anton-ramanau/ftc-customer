@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface UserService extends UserDetailsService {
 
     @Override
@@ -13,9 +15,7 @@ public interface UserService extends UserDetailsService {
 
     User save(User user);
 
-    User findUserByUsername(String username);
-
-    UserCommand findUserCommandByUsername(String username);
+    User findUserByUsername(String username);;
 
     UserCommand findUserCommandById(Long userId);
 

@@ -4,11 +4,13 @@ import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.service.CargoService;
 import com.example.ftc.customer.service.OrderService;
+import com.example.ftc.customer.utils.ServerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Slf4j
@@ -32,10 +34,9 @@ public class CargoController {
     }
 
     @PostMapping("/cargo/new")
-    public String addNewCargoView(@PathVariable Long orderId, Principal principal, @ModelAttribute CargoCommand cargoCommand) {
+    public String addNewCargoView(@PathVariable Long orderId, HttpServletRequest request, @ModelAttribute CargoCommand cargoCommand) {
         log.debug("Post new cargoCommand {}", cargoCommand);
-        cargoService.saveCargoCommand(principal.getName(), orderId, cargoCommand);
-
+        cargoService.saveCargoCommand(orderId, ServerUtils.getSessionUserId(request), cargoCommand);
         return "redirect:/user/order/" + orderId + "/update";
     }
 }

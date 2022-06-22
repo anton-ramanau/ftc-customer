@@ -33,27 +33,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Iterable<OrderCommand> findOrdersCommandByUserName(String userName) {
-        User user = userService.findUserByUsername(userName);
-        return findOrdersCommandByUserId(user.getId());
-    }
-
-    @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
-    }
-
-    @Override
-    public Order findOrderByUserNameAndOrderId(String userName, Long orderId) {
-        Order order = findOrderById(orderId);
-        return order == null ? null : order.getUser().getUsername().equals(userName)
-                ? order : null;
-    }
-
-    @Override
-    public OrderCommand findOrderCommandByUserNameAndOrderId(String userName, Long orderId) {
-
-        return orderToOrderCommand.convert(findOrderByUserNameAndOrderId(userName, orderId));
     }
 
     @Override
@@ -61,5 +42,13 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.findById(orderId).orElse(null);
     }
 
+    @Override
+    public Order findOrderByIdAndUserId(Long orderId, Long userId) {
+        return orderRepository.findOrderByIdAndUserId(orderId, userId).orElse(null);
+    }
 
+    @Override
+    public OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId) {
+        return orderToOrderCommand.convert(findOrderByIdAndUserId(orderId, userId));
+    }
 }

@@ -21,8 +21,8 @@ public class CargoServiceImpl implements CargoService{
 
     //todo update functionality
     @Override
-    public CargoCommand saveCargoCommand(String username, Long orderId, CargoCommand cargoCommand) {
-        Order order = orderService.findOrderByUserNameAndOrderId(username, orderId);
+    public CargoCommand saveCargoCommand(Long orderId, Long userId, CargoCommand cargoCommand) {
+        Order order = orderService.findOrderByIdAndUserId(orderId, userId);
         order.getCargos().add(cargoCommandToCargo.convert(cargoCommand));
         Order savedOrder = orderService.saveOrder(order);
         Cargo savedCargo = savedOrder.getCargos().stream()
