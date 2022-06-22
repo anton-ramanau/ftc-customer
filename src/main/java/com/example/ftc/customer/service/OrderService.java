@@ -9,5 +9,13 @@ public interface OrderService {
 
     Iterable<OrderCommand> findOrdersCommandByUserName(String userName);
 
-    Order save(Order order);
+    Order saveOrder(Order order);
+
+    Order findOrderByUserNameAndOrderId(String userName, Long orderId);
+
+    OrderCommand findOrderCommandByUserNameAndOrderId(String userName, Long orderId);
+
+    Order findOrderById(Long orderId);
+
+
 }

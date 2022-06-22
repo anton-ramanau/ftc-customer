@@ -4,12 +4,14 @@ import com.example.ftc.customer.domain.CargoType;
 import com.example.ftc.customer.domain.Order;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@ToString
 public class CargoCommand {
 
     public CargoCommand() {

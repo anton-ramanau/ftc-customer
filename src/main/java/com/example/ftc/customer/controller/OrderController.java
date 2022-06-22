@@ -1,6 +1,5 @@
 package com.example.ftc.customer.controller;
 
-import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.command.UserCommand;
 import com.example.ftc.customer.domain.Order;
@@ -10,11 +9,10 @@ import com.example.ftc.customer.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -32,7 +30,7 @@ public class OrderController {
     public String createNewOrder(Principal principal) {
         Order order = new Order();
         order.setUser(userService.findUserByUsername(principal.getName()));
-        orderService.save(order);
+        orderService.saveOrder(order);
 
         return "redirect:/user/orders";
     }
@@ -45,5 +43,16 @@ public class OrderController {
         model.addAttribute("user", userCommand);
 
         return "order/ordersList";
+    }
+
+    @GetMapping("user/order/{orderId}/update")
+    public String getOrderUpdateView(@PathVariable Long orderId, Principal principal, Model model) {
+        OrderCommand orderCommand = orderService.findOrderCommandByUserNameAndOrderId(principal.getName(), orderId);
+        if (orderCommand == null) {
+            throw new RuntimeException("Order doesn't exists");
+        } else {
+            model.addAttribute("order", orderCommand);
+            return "order/orderUpdate";
+        }
     }
 }

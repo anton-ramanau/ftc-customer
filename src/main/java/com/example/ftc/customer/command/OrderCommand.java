@@ -4,6 +4,7 @@ import com.example.ftc.customer.domain.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -15,7 +16,7 @@ public class OrderCommand {
 
     private Long id;
     private UserCommand user;
-    private Set<CargoCommand> cargos;
+    private Set<CargoCommand> cargos = new HashSet<>();
     private OrderStatus orderStatus;
     private Double price;
 }

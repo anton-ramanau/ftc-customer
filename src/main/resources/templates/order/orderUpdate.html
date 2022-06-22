@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Update </title>
+</head>
+<body>
+<h1>Update your order</h1>
+<main>
+    <table th:if="${order.cargos != null}">
+                <thead>
+                <tr>
+                    <th>Cargo type</th>
+                    <th>Cargo size</th>
+                    <th>Load address</th>
+                    <th>Unload address</th>
+                    <th>Load custom</th>
+                    <th>Unload custom</th>
+                    <th>Load date</th>
+                    <th>Unload date</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cargosEach : ${order.cargos}">
+                        <td th:text="${cargosEach.cargoType}">Cargo type</td>
+                        <td th:text="${cargosEach.cargoSize}">Cargo size</td>
+                        <td th:text="${cargosEach.loadAddress}">Load address</td>
+                        <td th:text="${cargosEach.unloadAddress}">Unload address</td>
+                        <td th:text="${cargosEach.loadCustom}">Load custom</td>
+                        <td th:text="${cargosEach.unloadCustom}">Unload custom</td>
+                        <td th:text="${cargosEach.loadDate}">Load date</td>
+                        <td th:text="${cargosEach.unloadDate}"></td>
+                        <td th:text="${cargosEach.description}">Description</td>
+                </tr>
+                </tbody>
+            </table>
+    <a th:href="@{'/user/order/' + ${order.id} + '/cargo/new'}">new cargo</a>
+</main>
+</body>
+</html>

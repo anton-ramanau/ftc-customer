@@ -7,9 +7,7 @@
 <body>
 <h1>Create order</h1>
 <main>
-    <section>
-        <h2 th:text="${'Order details for user ' + order.user.name}">Order details</h2>
-        <form th:action="@{/user/order/new}" method="post">
+        <form th:action="@{'/user/order/' + ${orderId} + '/cargo/new'}" method="post">
             <table>
                 <thead>
                 <tr>
@@ -25,19 +23,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${order.cargos != null}">
-                    <div th:each="cargosEach : ${order.cargos}">
-                        <td th:text="${cargosEach.cargoType}">Cargo type</td>
-                        <td th:text="${cargosEach.cargoSize}">Cargo size</td>
-                        <td th:text="${cargosEach.loadAddress}">Load address</td>
-                        <td th:text="${cargosEach.unloadAddress}">Unload address</td>
-                        <td th:text="${cargosEach.loadCustom}">Load custom</td>
-                        <td th:text="${cargosEach.unloadCustom}">Unload custom</td>
-                        <td th:text="${cargosEach.loadDate}">Load date</td>
-                        <td th:text="${cargosEach.unloadDate}"></td>
-                        <td th:text="${cargosEach.description}">Description</td>
-                    </div>
-                </tr>
                 <tr>
                     <div th:object="${cargo}">
                         <td><input type="text" th:field="*{cargoType}"></td>
@@ -55,7 +40,6 @@
             </table>
             <button type="submit">add new cargo</button>
         </form>
-    </section>
 </main>
 </body>
 </html>

@@ -21,6 +21,9 @@
                 <td th:text="${order.id}">order id</td>
                 <td th:text="${order.orderStatus}">order status</td>
                 <td th:text="${order.price}">order price</td>
+                <td>
+                    <a th:href="@{'/user/order/' + ${order.id} + '/update'}">update</a>
+                </td>
             </tr>
             </tbody>
         </table>
