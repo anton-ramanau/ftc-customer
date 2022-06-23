@@ -4,9 +4,9 @@ import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.converter.OrderCommandToOrder;
 import com.example.ftc.customer.converter.OrderToOrderCommand;
 import com.example.ftc.customer.domain.Order;
-import com.example.ftc.customer.domain.User;
 import com.example.ftc.customer.repository.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -50,5 +50,11 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId) {
         return orderToOrderCommand.convert(findOrderByIdAndUserId(orderId, userId));
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrderByIdAndUserId(Long orderId, Long userId) {
+        orderRepository.deleteOrderByIdAndUserId(orderId, userId);
     }
 }

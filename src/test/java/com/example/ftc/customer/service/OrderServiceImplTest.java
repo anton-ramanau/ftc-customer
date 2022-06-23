@@ -26,4 +26,9 @@ class OrderServiceImplTest {
         assertEquals(1l, order.getId());
         assertEquals(4l, order.getUser().getId());
     }
+
+    @Test
+    void deleteByIdAndUserId() {
+        orderService.deleteOrderByIdAndUserId(1L, 4L);
+    }
 }

@@ -11,6 +11,8 @@ public interface OrderService {
 
     Order findOrderById(Long orderId);
 
+    void deleteOrderByIdAndUserId(Long orderId, Long userId);
+
     Order findOrderByIdAndUserId(Long orderId, Long userId);
 
     OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId);

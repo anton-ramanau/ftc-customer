@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 
 @Controller
 public class OrderController {
@@ -47,6 +46,12 @@ public class OrderController {
         model.addAttribute("user", userCommand);
 
         return "order/ordersList";
+    }
+
+    @PostMapping("/user/order/{orderId}/delete")
+    public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request, Model model) {
+        orderService.deleteOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        return "redirect:/user/orders";
     }
 
     @GetMapping("user/order/{orderId}/update")

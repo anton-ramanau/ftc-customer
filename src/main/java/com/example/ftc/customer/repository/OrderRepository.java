@@ -9,4 +9,6 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
     Iterable<Order> findOrdersByUserId(Long userId);
 
     Optional <Order> findOrderByIdAndUserId(Long orderId, Long userId);
+
+    void deleteOrderByIdAndUserId(Long orderId, Long user_id);
 }

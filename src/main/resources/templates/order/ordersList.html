@@ -24,6 +24,11 @@
                 <td>
                     <a th:href="@{'/user/order/' + ${order.id} + '/update'}">update</a>
                 </td>
+                <td>
+                    <form th:action="@{'/user/order/' + ${order.id} + '/delete'}" method="post">
+                        <button type="submit">delete</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
