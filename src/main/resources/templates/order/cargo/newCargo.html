@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Create order Page</title>
+    <title>Create cargo page</title>
 </head>
 <body>
-<h1>Create order</h1>
+<h1>Create cargo</h1>
 <main>
         <form th:action="@{'/user/order/' + ${orderId} + '/cargo/new'}" method="post">
             <table>

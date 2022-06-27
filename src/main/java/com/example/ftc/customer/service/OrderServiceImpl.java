@@ -53,7 +53,6 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    @Transactional
     public void deleteOrderByIdAndUserId(Long orderId, Long userId) {
         orderRepository.deleteOrderByIdAndUserId(orderId, userId);
     }

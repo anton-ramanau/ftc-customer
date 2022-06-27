@@ -2,6 +2,7 @@ package com.example.ftc.customer.controller;
 
 import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.command.OrderCommand;
+import com.example.ftc.customer.domain.Cargo;
 import com.example.ftc.customer.service.CargoService;
 import com.example.ftc.customer.service.OrderService;
 import com.example.ftc.customer.utils.ServerUtils;
@@ -36,6 +37,37 @@ public class CargoController {
     @PostMapping("/cargo/new")
     public String addNewCargoView(@PathVariable Long orderId, HttpServletRequest request, @ModelAttribute CargoCommand cargoCommand) {
         log.debug("Post new cargoCommand {}", cargoCommand);
+        cargoService.saveCargoCommand(orderId, ServerUtils.getSessionUserId(request), cargoCommand);
+        return "redirect:/user/order/" + orderId + "/update";
+    }
+
+    @PostMapping("/cargo/{cargoId}/delete")
+    public String deleteCargo(@PathVariable Long orderId, HttpServletRequest request, @PathVariable Long cargoId) {
+        if (orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request)) != null) {
+            cargoService.deleteCargoByCargoIdAndOrderId(cargoId, orderId);
+        } else {
+            throw new RuntimeException("Choosed order not found");
+        }
+        return "redirect:/user/order/" + orderId + "/update";
+    }
+
+    @GetMapping("/cargo/{cargoId}/update")
+    public String getUpdateView(@PathVariable Long orderId, HttpServletRequest request, @PathVariable Long cargoId, Model model) {
+        CargoCommand cargoCommand;
+        if (orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request)) != null) {
+            model.addAttribute("cargo", cargoService.findCargoCommandByIdAndOrderId(cargoId, orderId));
+            model.addAttribute("orderId", orderId);
+        } else {
+            throw new RuntimeException("Choosed order not found");
+        }
+        return "order/cargo/cargoUpdate";
+    }
+
+    @PostMapping("/cargo/{cargoId}/update")
+    public String updateCargo(@PathVariable Long orderId, @PathVariable Long cargoId, HttpServletRequest request, CargoCommand cargoCommand) {
+        if (cargoCommand.getId() == null) {
+            cargoCommand.setId(cargoId);
+        }
         cargoService.saveCargoCommand(orderId, ServerUtils.getSessionUserId(request), cargoCommand);
         return "redirect:/user/order/" + orderId + "/update";
     }

@@ -32,6 +32,12 @@
                         <td th:text="${cargosEach.loadDate}">Load date</td>
                         <td th:text="${cargosEach.unloadDate}"></td>
                         <td th:text="${cargosEach.description}">Description</td>
+                        <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargosEach.id} + '/delete'}"
+                        method="post">
+                            <button type="submit">delete</button>
+                        </form></td>
+                    <td><a th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargosEach.id} + '/update'}">update</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

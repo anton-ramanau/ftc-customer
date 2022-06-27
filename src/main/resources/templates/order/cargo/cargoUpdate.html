@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <title>Update cargo page</title>
+</head>
+<body>
+<h1>Update your cargo</h1>
+<main>
+  <form th:action="@{'/user/order/' + ${orderId} + '/cargo/' + ${cargo.id} + '/update'}" method="post">
+    <table>
+      <thead>
+      <tr>
+        <th>Cargo type</th>
+        <th>Cargo size</th>
+        <th>Load address</th>
+        <th>Unload address</th>
+        <th>Load custom</th>
+        <th>Unload custom</th>
+        <th>Load date</th>
+        <th>Unload date</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <div th:object="${cargo}">
+          <td><input type="text" th:field="*{cargoType}"></td>
+          <td><input type="text" th:field="*{cargoSize}"></td>
+          <td><input type="text" th:field="*{loadAddress}"></td>
+          <td><input type="text" th:field="*{unloadAddress}"></td>
+          <td><input type="text" th:field="*{loadCustom}"></td>
+          <td><input type="text" th:field="*{unloadCustom}"></td>
+          <td><input type="text" th:field="*{loadDate}"></td>
+          <td><input type="text" th:field="*{unloadDate}"></td>
+          <td><input type="text" th:field="*{description}"></td>
+        </div>
+      </tr>
+      </tbody>
+    </table>
+    <button type="submit">update your cargo</button>
+  </form>
+</main>
+</body>
+</html>
