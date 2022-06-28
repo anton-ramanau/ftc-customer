@@ -17,7 +17,6 @@ public class CargoCommand {
     public CargoCommand() {
     }
 
-
     private Long id;
     private CargoType cargoType;
     private String cargoSize;
@@ -28,5 +27,6 @@ public class CargoCommand {
     private String loadCustom;
     private String unloadCustom;
     private String description;
+    private OrderCommand order;
 
 }

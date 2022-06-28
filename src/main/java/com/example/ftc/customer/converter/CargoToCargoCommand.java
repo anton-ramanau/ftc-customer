@@ -7,15 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CargoToCargoCommand implements Converter<Cargo, CargoCommand> {
+    private final OrderToOrderCommand orderToOrderCommand;
+
+    public CargoToCargoCommand(OrderToOrderCommand orderToOrderCommand) {
+        this.orderToOrderCommand = orderToOrderCommand;
+    }
 
     @Override
     public CargoCommand convert(Cargo cargo) {
         if (cargo == null) {
             return null;
         }
-
         CargoCommand cargoCommand = new CargoCommand();
-
         cargoCommand.setCargoSize(cargo.getCargoSize());
         cargoCommand.setCargoType(cargo.getCargoType());
         cargoCommand.setId(cargo.getId());
@@ -26,7 +29,7 @@ public class CargoToCargoCommand implements Converter<Cargo, CargoCommand> {
         cargoCommand.setUnloadCustom(cargo.getUnloadCustom());
         cargoCommand.setLoadDate(cargo.getLoadDate());
         cargoCommand.setUnloadDate(cargo.getUnloadDate());
-
+        cargoCommand.setOrder(orderToOrderCommand.convert(cargo.getOrder()));
         return cargoCommand;
     }
 }

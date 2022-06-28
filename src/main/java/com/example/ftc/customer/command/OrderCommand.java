@@ -16,7 +16,6 @@ public class OrderCommand {
 
     private Long id;
     private UserCommand user;
-    private Set<CargoCommand> cargos = new HashSet<>();
     private OrderStatus orderStatus;
     private Double price;
 }

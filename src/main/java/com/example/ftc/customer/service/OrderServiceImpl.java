@@ -4,6 +4,7 @@ import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.converter.OrderCommandToOrder;
 import com.example.ftc.customer.converter.OrderToOrderCommand;
 import com.example.ftc.customer.domain.Order;
+import com.example.ftc.customer.repository.CargoRepository;
 import com.example.ftc.customer.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,19 +18,19 @@ public class OrderServiceImpl implements OrderService{
     private final UserService userService;
     private final OrderToOrderCommand orderToOrderCommand;
     private final OrderCommandToOrder orderCommandToOrder;
+    private final CargoRepository cargoRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, OrderToOrderCommand orderToOrderCommand, OrderCommandToOrder orderCommandToOrder) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, OrderToOrderCommand orderToOrderCommand, OrderCommandToOrder orderCommandToOrder, CargoRepository cargoRepository) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.orderToOrderCommand = orderToOrderCommand;
         this.orderCommandToOrder = orderCommandToOrder;
+        this.cargoRepository = cargoRepository;
     }
 
     @Override
-    public Iterable<OrderCommand> findOrdersCommandByUserId(Long userId) {
-        Set<OrderCommand> orders = new HashSet<>();
-        orderRepository.findOrdersByUserId(userId).forEach(order -> orders.add(orderToOrderCommand.convert(order)));
-        return orders;
+    public Iterable<Order> findOrdersByUserId(Long userId) {
+        return orderRepository.findOrdersByUserId(userId);
     }
 
     @Override
@@ -38,22 +39,25 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order findOrderById(Long orderId) {
-        return orderRepository.findById(orderId).orElse(null);
-    }
-
-    @Override
     public Order findOrderByIdAndUserId(Long orderId, Long userId) {
-        return orderRepository.findOrderByIdAndUserId(orderId, userId).orElse(null);
+        Order order = orderRepository.findOrderByIdAndUserId(orderId, userId)
+                .orElseThrow(() -> new IllegalArgumentException("Order doesn't exists"));
+        return order;
     }
 
-    @Override
-    public OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId) {
-        return orderToOrderCommand.convert(findOrderByIdAndUserId(orderId, userId));
-    }
 
+    @Transactional
     @Override
     public void deleteOrderByIdAndUserId(Long orderId, Long userId) {
-        orderRepository.deleteOrderByIdAndUserId(orderId, userId);
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            if (order.getUser().getId().equals(userId)) {
+                cargoRepository.deleteAllByOrderId(orderId);
+                orderRepository.delete(order);
+            } else {
+                throw new IllegalArgumentException("Order doesn't exist");
+            }
+        }
+
     }
 }

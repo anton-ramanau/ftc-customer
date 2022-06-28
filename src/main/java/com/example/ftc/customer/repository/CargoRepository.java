@@ -11,12 +11,14 @@ import java.util.Optional;
 
 public interface CargoRepository extends CrudRepository<Cargo, Long> {
 
-    @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "DELETE FROM cargoes WHERE id = :id AND order_id = :orderId")
-    void deleteCargoByIdAndOrderId(@Param("id") Long cargoId, @Param("orderId") Long orderId);
+    void deleteCargoByIdAndOrderId(Long cargoId, Long orderId);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM cargoes WHERE id = ?1 AND order_id = ?2")
+    @Transactional
+    void deleteAllByOrderId(Long orderId);
+
     Optional<Cargo> findCargoByIdAndOrderId(Long cargoId, Long orderId);
+
+    Iterable<Cargo> findAllByOrderId(Long orderId);
 
 }

@@ -13,7 +13,4 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     Optional <Order> findOrderByIdAndUserId(Long orderId, Long userId);
 
-    @Transactional
-    void deleteOrderByIdAndUserId(Long orderId, Long user_id);
-
 }

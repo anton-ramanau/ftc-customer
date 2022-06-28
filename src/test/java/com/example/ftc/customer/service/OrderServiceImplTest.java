@@ -14,22 +14,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
 class OrderServiceImplTest {
 
-    @Autowired
-    OrderService orderService;
-
-    @Test
-    void findOrderByIdAndUserId() {
-        Order order = orderService.findOrderByIdAndUserId(1L, 4L);
-        assertEquals(1l, order.getId());
-        assertEquals(4l, order.getUser().getId());
-    }
-
-    @Test
-    void deleteByIdAndUserId() {
-        orderService.deleteOrderByIdAndUserId(1L, 4L);
-    }
+//    @Autowired
+//    OrderService orderService;
+//
+//    @Test
+//    void findOrderByIdAndUserId() {
+//        Order order = orderService.findOrderByIdAndUserId(1L, 4L);
+//        assertEquals(1l, order.getId());
+//        assertEquals(4l, order.getUser().getId());
+//    }
+//
+//    @Test
+//    void deleteByIdAndUserId() {
+//        orderService.deleteOrderByIdAndUserId(1L, 4L);
+//    }
 
 }

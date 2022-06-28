@@ -7,7 +7,7 @@
 <body>
 <h1>Update your order</h1>
 <main>
-    <table th:if="${order.cargos != null}">
+    <table>
                 <thead>
                 <tr>
                     <th>Cargo type</th>
@@ -22,21 +22,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cargosEach : ${order.cargos}">
-                        <td th:text="${cargosEach.cargoType}">Cargo type</td>
-                        <td th:text="${cargosEach.cargoSize}">Cargo size</td>
-                        <td th:text="${cargosEach.loadAddress}">Load address</td>
-                        <td th:text="${cargosEach.unloadAddress}">Unload address</td>
-                        <td th:text="${cargosEach.loadCustom}">Load custom</td>
-                        <td th:text="${cargosEach.unloadCustom}">Unload custom</td>
-                        <td th:text="${cargosEach.loadDate}">Load date</td>
-                        <td th:text="${cargosEach.unloadDate}"></td>
-                        <td th:text="${cargosEach.description}">Description</td>
-                        <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargosEach.id} + '/delete'}"
+                <tr th:each="cargo : ${cargoes}">
+                        <td th:text="${cargo.cargoType}">Cargo type</td>
+                        <td th:text="${cargo.cargoSize}">Cargo size</td>
+                        <td th:text="${cargo.loadAddress}">Load address</td>
+                        <td th:text="${cargo.unloadAddress}">Unload address</td>
+                        <td th:text="${cargo.loadCustom}">Load custom</td>
+                        <td th:text="${cargo.unloadCustom}">Unload custom</td>
+                        <td th:text="${cargo.loadDate}">Load date</td>
+                        <td th:text="${cargo.unloadDate}"></td>
+                        <td th:text="${cargo.description}">Description</td>
+                        <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/delete'}"
                         method="post">
                             <button type="submit">delete</button>
                         </form></td>
-                    <td><a th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargosEach.id} + '/update'}">update</a>
+                    <td><a th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
                     </td>
                 </tr>
                 </tbody>

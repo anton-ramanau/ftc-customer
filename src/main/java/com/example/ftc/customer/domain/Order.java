@@ -1,5 +1,6 @@
 package com.example.ftc.customer.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "orders")
 public class Order {
 
@@ -23,10 +25,6 @@ public class Order {
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private Set<Cargo> cargos = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

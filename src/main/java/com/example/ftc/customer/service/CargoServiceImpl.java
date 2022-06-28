@@ -1,7 +1,5 @@
 package com.example.ftc.customer.service;
 
-import com.example.ftc.customer.command.CargoCommand;
-import com.example.ftc.customer.converter.CargoCommandToCargo;
 import com.example.ftc.customer.converter.CargoToCargoCommand;
 import com.example.ftc.customer.domain.Cargo;
 import com.example.ftc.customer.domain.Order;
@@ -10,65 +8,61 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CargoServiceImpl implements CargoService{
-    private final CargoCommandToCargo cargoCommandToCargo;
     private final CargoToCargoCommand cargoToCargoCommand;
     private final OrderService orderService;
     private final CargoRepository cargoRepository;
 
-    public CargoServiceImpl(CargoCommandToCargo cargoCommandToCargo, CargoToCargoCommand cargoToCargoCommand, OrderService orderService, CargoRepository cargoRepository) {
-        this.cargoCommandToCargo = cargoCommandToCargo;
+    public CargoServiceImpl(CargoToCargoCommand cargoToCargoCommand, OrderService orderService, CargoRepository cargoRepository) {
         this.cargoToCargoCommand = cargoToCargoCommand;
         this.orderService = orderService;
         this.cargoRepository = cargoRepository;
     }
 
-    //todo update functionality
     @Override
-    public CargoCommand saveCargoCommand(Long orderId, Long userId, CargoCommand cargoCommand) {
-        Cargo cargoInput = cargoCommandToCargo.convert(cargoCommand);
+    public void saveCargo(Cargo cargo, Long orderId, Long userId) {
+        if (cargo == null) {
+            throw new NullPointerException("Cargo is null");
+        }
+        //todo optimise checking access session user to order
         Order order = orderService.findOrderByIdAndUserId(orderId, userId);
-        if (order == null) {
-            throw new RuntimeException("Can not find order for this user");
-        }
-        if (cargoInput.getId() != null) {
-            return cargoToCargoCommand.convert(updateCargo(cargoInput, orderId));
+        if (cargo.getId() == null) {
+            cargo.setOrder(order);
+            cargoRepository.save(cargo);
         } else {
-            order.getCargos().add(cargoInput);
-            Order savedOrder = orderService.saveOrder(order);
-            Cargo savedCargo = savedOrder.getCargos().stream()
-                    .filter(cargo -> cargo.getCargoSize().equals(cargoCommand.getCargoSize()))
-//                todo add defaultcargotype
-//                .filter(cargo -> cargo.getCargoType().equals(cargoCommand.getCargoType()))
-                    .filter(cargo -> cargo.getLoadAddress().equals(cargoCommand.getLoadAddress()))
-                    .filter(cargo -> cargo.getUnloadAddress().equals(cargoCommand.getUnloadAddress()))
-//                todo add correct find functionality
-//                .filter(cargo -> cargo.getLoadDate().isEqual(cargoCommand.getLoadDate()))
-//                .filter(cargo -> cargo.getUnloadDate().isEqual(cargoCommand.getUnloadDate()))
-                    .filter(cargo -> cargo.getDescription().equals(cargoCommand.getDescription()))
-                    .filter(cargo -> cargo.getLoadCustom().equals(cargoCommand.getLoadCustom()))
-                    .filter(cargo -> cargo.getUnloadCustom().equals(cargoCommand.getUnloadCustom()))
-                    .findFirst().orElse(null);
-            return cargoToCargoCommand.convert(savedCargo);
+            Cargo cargoFromDB = cargoRepository.findById(cargo.getId()).orElse(null);
+            if (cargoFromDB != null) {
+                if (cargoFromDB.getOrder().getId().equals(order.getId())) {
+                    //todo update eachfield
+                    cargoFromDB.setCargoType(cargo.getCargoType());
+                    cargoFromDB.setCargoSize(cargo.getCargoSize());
+                    cargoFromDB.setCargoType(cargo.getCargoType());
+                    cargoFromDB.setId(cargo.getId());
+                    cargoFromDB.setDescription(cargo.getDescription());
+                    cargoFromDB.setLoadAddress(cargo.getLoadAddress());
+                    cargoFromDB.setUnloadAddress(cargo.getUnloadAddress());
+                    cargoFromDB.setLoadCustom(cargo.getLoadCustom());
+                    cargoFromDB.setUnloadCustom(cargo.getUnloadCustom());
+                    cargoFromDB.setLoadDate(cargo.getLoadDate());
+                    cargoFromDB.setUnloadDate(cargo.getUnloadDate());
+                    cargoFromDB.setOrder(order);
+                    cargoRepository.save(cargoFromDB);
+                } else {
+                    throw new IllegalArgumentException("Order is not owner of cargo");
+                }
+            } else {
+                throw new NullPointerException("Cargo doesn't exists");
+            }
         }
     }
 
     @Override
-    public Cargo updateCargo(Cargo cargo, Long orderId) {
-        Cargo cargoInBase = cargoRepository.findCargoByIdAndOrderId(cargo.getId(), orderId).orElse(null);
-        if (cargoInBase == null) {
-            throw new RuntimeException("Nothing to update");
+    public Iterable<Cargo> findAllByOrderId(Long orderId) {
+        Iterable<Cargo> cargos = cargoRepository.findAllByOrderId(orderId);
+        if (cargos != null) {
+            return cargos;
+        } else {
+            throw new NullPointerException("Cargoes didn't find");
         }
-        if (cargoInBase.equals(cargo)) {
-            return cargo;
-        }
-        Cargo savedCargo = cargoRepository.save(cargo);
-        return savedCargo;
-    }
-
-    @Override
-    public CargoCommand updateCargo(CargoCommand cargoCommand, Long orderId) {
-        Cargo cargo = updateCargo(cargoCommandToCargo.convert(cargoCommand), orderId);
-        return cargoToCargoCommand.convert(cargo);
     }
 
     @Override
@@ -76,9 +70,10 @@ public class CargoServiceImpl implements CargoService{
             cargoRepository.deleteCargoByIdAndOrderId(cargoId, orderId);
     }
 
+    //todo do something mit user access
     @Override
-    public CargoCommand findCargoCommandByIdAndOrderId(Long cargoId, Long orderId) {
-        Cargo cargo = cargoRepository.findCargoByIdAndOrderId(cargoId, orderId).orElse(null);
-        return cargo != null ? cargoToCargoCommand.convert(cargo) : null;
+    public Cargo findCargoByIdAndOrder(Long cargoId, Long orderId) {
+        return cargoRepository.findCargoByIdAndOrderId(cargoId, orderId)
+                .orElseThrow(() -> new NullPointerException("Cargo doesn't exists"));
     }
 }

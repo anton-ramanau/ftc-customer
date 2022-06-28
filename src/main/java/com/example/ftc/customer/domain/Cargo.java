@@ -1,5 +1,6 @@
 package com.example.ftc.customer.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @Table(name = "cargoes")
 public class Cargo {
 
@@ -31,6 +33,9 @@ public class Cargo {
     private String unloadCustom;
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
 
 

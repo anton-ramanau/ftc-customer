@@ -7,15 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
 class CargoServiceImplTest {
 
-    @Autowired
-    CargoServiceImpl cargoService;
-
-    @Test
-    void deleteCargoByCargoIdAndOrderId() {
-        cargoService.deleteCargoByCargoIdAndOrderId(16L, 9L);
-
-    }
+//    @Autowired
+//    CargoServiceImpl cargoService;
+//
+//    @Test
+//    void deleteCargoByCargoIdAndOrderId() {
+//        cargoService.deleteCargoByCargoIdAndOrderId(16L, 9L);
+//
+//    }
 }

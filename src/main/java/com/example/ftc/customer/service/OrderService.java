@@ -1,19 +1,15 @@
 package com.example.ftc.customer.service;
 
-import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.domain.Order;
 
 public interface OrderService {
 
-    Iterable<OrderCommand> findOrdersCommandByUserId(Long userId);
+    Iterable<Order> findOrdersByUserId(Long userId);
 
     Order saveOrder(Order order);
-
-    Order findOrderById(Long orderId);
 
     void deleteOrderByIdAndUserId(Long orderId, Long userId);
 
     Order findOrderByIdAndUserId(Long orderId, Long userId);
 
-    OrderCommand findOrderCommandByIdAndUserId(Long orderId, Long userId);
 }

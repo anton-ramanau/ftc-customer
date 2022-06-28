@@ -1,19 +1,14 @@
 package com.example.ftc.customer.service;
 
-import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.domain.Cargo;
-
 
 public interface CargoService {
 
-    CargoCommand saveCargoCommand(Long orderId, Long userId, CargoCommand cargoCommand);
+    void saveCargo(Cargo cargo, Long orderId, Long userId);
 
-    Cargo updateCargo(Cargo cargo, Long orderId);
-
-    CargoCommand updateCargo(CargoCommand cargoCommand, Long orderId);
+    Iterable<Cargo> findAllByOrderId(Long orderId);
 
     void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId);
 
-    CargoCommand findCargoCommandByIdAndOrderId(Long cargoId, Long orderId);
-
+    Cargo findCargoByIdAndOrder(Long cargoId, Long orderId);
 }
