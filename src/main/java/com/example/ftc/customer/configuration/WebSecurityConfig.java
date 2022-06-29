@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -34,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .successHandler(customAuthenticationSuccessHandler)
                 .permitAll()
+                .and().rememberMe()
+                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(5))
                 .and()
                 .logout()
                 .logoutUrl("/logout")
