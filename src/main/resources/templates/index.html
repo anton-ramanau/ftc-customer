@@ -5,22 +5,22 @@
     <title>Main page</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
-<body>
-    <main>
-        <div class="container-fluid">
+<body style="background-image: url(/images/Header-Transportation.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+<main>
+        <div class="container-fluid" style="margin-bottom: 400px">
             <div class="row justify-content-center">
-                <div class="col-4 py-3 bg-light my-1 mt-4 text-center">
-                    <a class="btn btn-outline-info" th:href="@{/login}">Login</a>
+                <div class="col-4 py-3 bg-warning my-1 mt-4 text-center">
+                    <a class="btn btn-light" th:href="@{/user}">Your profile</a>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-4 py-3 bg-light my-1 text-center">
-                    <a class="btn btn-outline-info " th:href="@{/registration}">Registration</a>
+                <div class="col-4 py-3 bg-warning my-1 text-center">
+                    <a class="btn btn-light" href="#">Order transportation</a>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-4 py-3 bg-light my-1 text-center">
-                    <a class="btn btn-outline-info" href="#">Request transportation without login</a>
+                <div class="col-4 py-3 bg-warning my-1 text-center">
+                    <a class="btn btn-light " th:href="@{/registration}">Registration</a>
                 </div>
             </div>
         </div>
