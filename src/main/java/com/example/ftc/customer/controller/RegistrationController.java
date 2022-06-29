@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RegistrationController {
@@ -26,8 +27,12 @@ public class RegistrationController {
     }
 
     //todo: check user name without upper chars
+    //todo: return to view password error
     @PostMapping("/registration")
-    public String createNewUser(User user) {
+    public String createNewUser(User user, @RequestParam("password-rep") String passwordRep) {
+        if (!user.getPassword().equals(passwordRep)) {
+            throw new IllegalArgumentException("Passwords are different");
+        }
         if (userService.findUserByUsername(user.getUsername()) == null) {
             String passwordEncoded = passwordEncoder.encode(user.getPassword());
             user.setPassword(passwordEncoded);
