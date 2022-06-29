@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="cargo : ${cargoes}">
-                    <td th:text="${cargo.cargoType}">Cargo type</td>
+                    <td th:text="${cargo.cargoType} ? ${cargo.cargoType.shortDescription} : 'unknown'">Cargo type</td>
                     <td th:text="${cargo.cargoSize}">Cargo size</td>
                     <td th:text="${cargo.loadAddress}">Load address</td>
                     <td th:text="${cargo.unloadAddress}">Unload address</td>
