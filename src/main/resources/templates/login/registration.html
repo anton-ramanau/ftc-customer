@@ -3,21 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
-<h1>Create your own profile</h1>
 <main>
-    <section>
-        <h2>Insert username and password</h2>
-        <form th:action="@{/registration}" th:object="${user}" method="post">
-            <input type="hidden" th:field="*{id}">
-            <label>Username</label>
-            <input type="text" th:field="*{username}" placeholder="username">
-            <label>Password</label>
-            <input type="password" th:field="*{password}" placeholder="yourpassword">
-            <button type="submit">Create profile</button>
-        </form>
-    </section>
+    <div class="container-fluid">
+        <div class="row mt-4 justify-content-center">
+            <div class="col-4 pt-3 pb-5 bg-light">
+                <h2 class="text-dark">Create your own profile</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+                <form th:action="@{/registration}" class="col-4 bg-light pb-3" th:object="${user}" method="post">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" th:field="*{username}" placeholder="username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" th:field="*{password}" placeholder="yourpassword">
+                    </div>
+                    <div class="form-group">
+                        <label>Re-enter password</label>
+                        <input type="password" class="form-control" name="password-rep" placeholder="yourpassword">
+                    </div>
+                    <button type="submit" class="btn btn-info">Create profile</button>
+                 </form>
+        </div>
+    </div>
 </main>
 </body>
 </html>
