@@ -2,13 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet"/>
     <title>Order Update </title>
 </head>
 <body>
-<h1>Update your order</h1>
+
 <main>
-    <table>
-                <thead>
+    <div class="container-fluid">
+        <div class="row mt-3 pb-1">
+            <div class="col-2">
+                <h1 class="h6">Update your order</h1>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col">
+            <table class="table table-sm table-hover" style="font-size: small">
+                <thead class="thead-dark">
                 <tr>
                     <th>Cargo type</th>
                     <th>Cargo size</th>
@@ -19,30 +28,43 @@
                     <th>Load date</th>
                     <th>Unload date</th>
                     <th>Description</th>
+                    <th>Delete</th>
+                    <th>Update</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="cargo : ${cargoes}">
-                        <td th:text="${cargo.cargoType}">Cargo type</td>
-                        <td th:text="${cargo.cargoSize}">Cargo size</td>
-                        <td th:text="${cargo.loadAddress}">Load address</td>
-                        <td th:text="${cargo.unloadAddress}">Unload address</td>
-                        <td th:text="${cargo.loadCustom}">Load custom</td>
-                        <td th:text="${cargo.unloadCustom}">Unload custom</td>
-                        <td th:text="${cargo.loadDate}">Load date</td>
-                        <td th:text="${cargo.unloadDate}"></td>
-                        <td th:text="${cargo.description}">Description</td>
-                        <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/delete'}"
-                        method="post">
-                            <button type="submit">delete</button>
-                        </form></td>
-                    <td><a th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
+                    <td th:text="${cargo.cargoType}">Cargo type</td>
+                    <td th:text="${cargo.cargoSize}">Cargo size</td>
+                    <td th:text="${cargo.loadAddress}">Load address</td>
+                    <td th:text="${cargo.unloadAddress}">Unload address</td>
+                    <td th:text="${cargo.loadCustom}">Load custom</td>
+                    <td th:text="${cargo.unloadCustom}">Unload custom</td>
+                    <td th:text="${cargo.loadDate}">Load date</td>
+                    <td th:text="${cargo.unloadDate}"></td>
+                    <td th:text="${cargo.description}">Description</td>
+                    <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/delete'}"
+                              method="post">
+                        <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
+                    </form></td>
+                    <td><a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-    <a th:href="@{'/user/order/' + ${order.id} + '/cargo/new'}">New cargo</a>
-    <a th:href="@{/user/orders}">Back to orders</a>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-2 pt-2">
+                <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/cargo/new'}">New cargo</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 pt-2">
+                <a class="btn btn-info mt-2" style="font-size: small" th:href="@{/user}">Back</a>
+            </div>
+        </div>
+    </div>
 </main>
 </body>
 </html>

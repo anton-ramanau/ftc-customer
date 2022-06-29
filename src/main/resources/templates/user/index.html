@@ -7,15 +7,20 @@
 <body>
 <main>
     <div class="container-fluid">
-        <div class="row justify-content-md-start mt-4 pb-3">
+        <div class="row mt-4 pb-3">
             <div class="col-4">
                 <h3 th:text="${user.username}">User name</h3>
             </div>
         </div>
-        <div class="row justify-content-md-start">
+        <div class="row pb-0">
+            <div class="col-4">
+                <p class="h6">Orders</p>
+            </div>
+        </div>
+        <div class="row ">
             <div class="col-6">
-                <p>ACTIVE ORDERS</p>
-            <table class="table table-sm table-hover">
+
+            <table class="table table-sm table-hover" style="font-size: small">
                 <thead class="thead-dark">
                 <tr>
                     <th>order id</th>
@@ -31,18 +36,18 @@
                     <td th:text="${order.orderStatus}">order status</td>
                     <td th:text="${order.price}">order price</td>
                     <td>
-                        <a class="btn btn-info" th:href="@{'/user/order/' + ${order.id} + '/update'}">update</a>
+                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/update'}">update</a>
                     </td>
                     <td>
                         <form th:action="@{'/user/order/' + ${order.id} + '/delete'}" method="post">
-                            <button class="btn btn-info" type="submit">delete</button>
+                            <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                         </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
                 <form th:action="@{/user/order/new}" method="post">
-                    <button class="btn btn-info" type="submit">New order</button>
+                    <button class="btn btn-info" style="font-size: small" type="submit">New order</button>
                 </form>
             </div>
         </div>
