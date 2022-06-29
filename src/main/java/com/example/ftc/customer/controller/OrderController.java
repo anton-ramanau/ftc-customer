@@ -48,26 +48,14 @@ public class OrderController {
         User user = userService.findUserById(ServerUtils.getSessionUserId(request));
         order.setUser(user);
         orderService.saveOrder(order);
-        return "redirect:/user/orders";
+        return "redirect:/user";
     }
 
-    @GetMapping("/user/orders")
-    public String getOrdersView(HttpServletRequest request, Model model) {
-        Long userId = ServerUtils.getSessionUserId(request);
-        Iterable<Order> orders = orderService.findOrdersByUserId(ServerUtils.getSessionUserId(request));
-        Set<OrderCommand> orderCommands = new HashSet<>();
-        orders.forEach(order -> orderCommands.add(orderToOrderCommand.convert(order)));
-        model.addAttribute("orders", orders);
-        User user = userService.findUserById(userId);
-        UserCommand userCommand = userToUserCommand.convert(user);
-        model.addAttribute("user", userCommand);
-        return "order/ordersList";
-    }
 
     @PostMapping("/user/order/{orderId}/delete")
     public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
         orderService.deleteOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
-        return "redirect:/user/orders";
+        return "redirect:/user";
     }
 
     //todo PostController for updating orderData
