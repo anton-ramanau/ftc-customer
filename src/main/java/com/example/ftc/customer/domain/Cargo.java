@@ -19,18 +19,35 @@ public class Cargo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cargo_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "cargo_type")
     private CargoType cargoType;
 
+    @Column(name = "cargo_size")
     private String cargoSize;
+
+    @Column(name = "load_address")
     private String loadAddress;
+
+    @Column(name = "unload_address")
     private String unloadAddress;
+
+    @Column(name = "load_date")
     private LocalDate loadDate;
+
+    @Column(name = "unload_date")
     private LocalDate unloadDate;
+
+    @Column(name = "load_custom")
     private String loadCustom;
+
+    @Column(name = "unload_custom")
     private String unloadCustom;
+
+    @Column(name = "description")
     private String description;
 
     @ManyToOne

@@ -20,6 +20,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long id;
 
     @ManyToOne (fetch = FetchType.EAGER)
@@ -27,7 +28,9 @@ public class Order {
     private User user;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
     private OrderStatus orderStatus;
 
+    @Column(name = "price")
     private Double price;
 }
