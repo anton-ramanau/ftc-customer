@@ -69,6 +69,8 @@ public class CargoController {
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
         Cargo cargo = cargoService.findCargoByIdAndOrder(cargoId, orderId);
         model.addAttribute("cargo", cargoToCargoCommand.convert(cargo));
+        Set<CargoType> cargoTypes = cargoTypeService.findAll();
+        model.addAttribute("cargoTypes", cargoTypes);
         model.addAttribute("orderId", orderId);
         return "order/cargo/cargoUpdate";
     }

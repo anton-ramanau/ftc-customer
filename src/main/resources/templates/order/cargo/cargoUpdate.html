@@ -2,44 +2,87 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
+  <link th:href="@{/css/bootstrap.min.css}" href="../../../static/css/bootstrap.min.css" rel="stylesheet"/>
   <title>Update cargo page</title>
 </head>
 <body>
-<h1>Update your cargo</h1>
+
 <main>
-  <form th:action="@{'/user/order/' + ${orderId} + '/cargo/' + ${cargo.id} + '/update'}" method="post">
-    <table>
-      <thead>
-      <tr>
-        <th>Cargo type</th>
-        <th>Cargo size</th>
-        <th>Load address</th>
-        <th>Unload address</th>
-        <th>Load custom</th>
-        <th>Unload custom</th>
-        <th>Load date</th>
-        <th>Unload date</th>
-        <th>Description</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <div th:object="${cargo}">
-          <td><input type="text" th:field="*{cargoType}"></td>
-          <td><input type="text" th:field="*{cargoSize}"></td>
-          <td><input type="text" th:field="*{loadAddress}"></td>
-          <td><input type="text" th:field="*{unloadAddress}"></td>
-          <td><input type="text" th:field="*{loadCustom}"></td>
-          <td><input type="text" th:field="*{unloadCustom}"></td>
-          <td><input type="text" th:field="*{loadDate}"></td>
-          <td><input type="text" th:field="*{unloadDate}"></td>
-          <td><input type="text" th:field="*{description}"></td>
-        </div>
-      </tr>
-      </tbody>
-    </table>
-    <button type="submit">update your cargo</button>
-  </form>
+  <div class="container-fluid">
+    <div class="row ml-1 mt-4 mb-4">
+      <div class="col-8 text-center m">
+        <h1 class="h5">Update cargo</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <form th:action="@{'/user/order/' + ${orderId} + '/cargo/' + ${cargo.id} + '/update'}" method="post" th:object="${cargo}">
+          <div class="form-group row">
+            <label class="col-form-label col-2">Cargo type:</label>
+            <div class="col-3">
+              <select class="form-control" type="text" th:field="*{cargoType}">
+                <option th:each="cargoType : ${cargoTypes}" th:value="${cargoType}" th:text="${cargoType.shortDescription}">CargoType</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Cargo size:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{cargoSize}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Load address:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{loadAddress}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Unload address:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{unloadAddress}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Load custom:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{loadCustom}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Unload custom:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{unloadCustom}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Load date:</label>
+            <div class="col-4">
+              <input type="datetime-local" class="form-control" th:field="*{loadDate}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Unload date:</label>
+            <div class="col-4">
+              <input type="datetime-local" class="form-control" th:field="*{unloadDate}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-2">Description:</label>
+            <div class="col-10">
+              <input class="form-control" type="text" th:field="*{description}">
+            </div>
+          </div>
+          <div class="row mb-4 ml-0">
+            <button class="btn btn-info" type="submit">update cargo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mb-4 ml-0">
+      <a class="btn btn-info" type="submit" th:href="@{'/user/order/' + ${orderId} + '/update'}">Back</a>
+    </div>
+  </div>
 </main>
 </body>
 </html>

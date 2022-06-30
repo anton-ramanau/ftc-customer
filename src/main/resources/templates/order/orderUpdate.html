@@ -43,11 +43,13 @@
                     <td th:text="${cargo.loadDate}">Load date</td>
                     <td th:text="${cargo.unloadDate}"></td>
                     <td th:text="${cargo.description}">Description</td>
+                    <td>
+                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
+                    </td>
                     <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/delete'}"
                               method="post">
                         <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
-                    </form></td>
-                    <td><a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
+                    </form>
                     </td>
                 </tr>
                 </tbody>

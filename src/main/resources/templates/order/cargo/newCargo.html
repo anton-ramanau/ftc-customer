@@ -19,7 +19,7 @@
                 <form th:action="@{'/user/order/' + ${orderId} + '/cargo/new'}" method="post" th:object="${cargo}">
                     <div class="form-group row">
                         <label class="col-form-label col-2">Cargo type:</label>
-                        <div class="col-10">
+                        <div class="col-3">
                             <select class="form-control" type="text" th:field="*{cargoType}">
                                 <option th:each="cargoType : ${cargoTypes}" th:value="${cargoType}" th:text="${cargoType.shortDescription}">CargoType</option>
                             </select>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-form-label col-2">Cargo size:</label>
-                        <div class="col-10">
+                        <div class="col-3">
                             <input class="form-control" type="text" th:field="*{cargoSize}">
                         </div>
                     </div>
@@ -78,6 +78,9 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="row mb-4 ml-0">
+            <a class="btn btn-info" type="submit" th:href="@{'/user/order/' + ${orderId} + '/update'}">Back</a>
         </div>
     </div>
 </main>
