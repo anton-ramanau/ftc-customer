@@ -2,7 +2,6 @@ package com.example.ftc.customer.controller;
 
 import com.example.ftc.customer.command.CargoCommand;
 import com.example.ftc.customer.command.OrderCommand;
-import com.example.ftc.customer.command.UserCommand;
 import com.example.ftc.customer.converter.CargoToCargoCommand;
 import com.example.ftc.customer.converter.OrderToOrderCommand;
 import com.example.ftc.customer.converter.UserToUserCommand;
@@ -59,7 +58,7 @@ public class OrderController {
     }
 
     //todo PostController for updating orderData
-    @GetMapping("user/order/{orderId}/update")
+    @GetMapping("user/order/{orderId}/details")
     public String getOrderUpdateView(@PathVariable Long orderId, HttpServletRequest request, Model model) {
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
         OrderCommand orderCommand = orderToOrderCommand.convert(order);
@@ -68,6 +67,6 @@ public class OrderController {
         cargoes.forEach((c) -> cargoCommands.add(cargoToCargoCommand.convert(c)));
         model.addAttribute("order", orderCommand);
         model.addAttribute("cargoes", cargoCommands);
-        return "order/orderUpdate";
+        return "/order/orderDetails";
     }
 }

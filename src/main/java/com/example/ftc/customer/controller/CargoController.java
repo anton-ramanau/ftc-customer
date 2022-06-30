@@ -50,7 +50,7 @@ public class CargoController {
     public String addNewCargoView(@PathVariable Long orderId, HttpServletRequest request, @ModelAttribute CargoCommand cargoCommand) {
         Cargo cargo = cargoCommandToCargo.convert(cargoCommand);
         cargoService.saveCargo(cargo, orderId, ServerUtils.getSessionUserId(request));
-        return "redirect:/user/order/" + orderId + "/update";
+        return "redirect:/user/order/" + orderId + "/details";
     }
 
     @PostMapping("/cargo/{cargoId}/delete")
@@ -60,7 +60,7 @@ public class CargoController {
         } else {
             throw new RuntimeException("Choosed order not found");
         }
-        return "redirect:/user/order/" + orderId + "/update";
+        return "redirect:/user/order/" + orderId + "/details";
     }
 
     @GetMapping("/cargo/{cargoId}/update")
@@ -81,6 +81,6 @@ public class CargoController {
         Cargo cargo = cargoCommandToCargo.convert(cargoCommand);
         cargo.setId(cargoId);
         cargoService.saveCargo(cargo, orderId, ServerUtils.getSessionUserId(request));
-        return "redirect:/user/order/" + orderId + "/update";
+        return "redirect:/user/order/" + orderId + "/details";
     }
 }

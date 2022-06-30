@@ -36,7 +36,7 @@
                     <td th:text="${order.orderStatus}">order status</td>
                     <td th:text="${order.price}">order price</td>
                     <td>
-                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/update'}">update</a>
+                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/details'}">update</a>
                     </td>
                     <td>
                         <form th:action="@{'/user/order/' + ${order.id} + '/delete'}" method="post">
