@@ -3,9 +3,11 @@ package com.example.ftc.customer.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -36,10 +38,10 @@ public class Cargo {
     private String unloadAddress;
 
     @Column(name = "load_date")
-    private LocalDate loadDate;
+    private LocalDateTime loadDate;
 
     @Column(name = "unload_date")
-    private LocalDate unloadDate;
+    private LocalDateTime unloadDate;
 
     @Column(name = "load_custom")
     private String loadCustom;

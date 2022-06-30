@@ -5,9 +5,11 @@ import com.example.ftc.customer.domain.Order;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,8 +24,12 @@ public class CargoCommand {
     private String cargoSize;
     private String loadAddress;
     private String unloadAddress;
-    private LocalDate loadDate;
-    private LocalDate unloadDate;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime loadDate;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime unloadDate;
     private String loadCustom;
     private String unloadCustom;
     private String description;
