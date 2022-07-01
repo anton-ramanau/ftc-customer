@@ -8,7 +8,7 @@ public interface OrderService {
 
     Order saveOrder(Order order);
 
-    void deleteOrderByIdAndUserId(Long orderId, Long userId);
+    void deleteOrder(Order order);
 
     Order findOrderByIdAndUserId(Long orderId, Long userId);
 

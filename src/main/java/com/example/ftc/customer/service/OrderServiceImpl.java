@@ -4,6 +4,7 @@ import com.example.ftc.customer.command.OrderCommand;
 import com.example.ftc.customer.converter.OrderCommandToOrder;
 import com.example.ftc.customer.converter.OrderToOrderCommand;
 import com.example.ftc.customer.domain.Order;
+import com.example.ftc.customer.exception.OrderNotFoundException;
 import com.example.ftc.customer.repository.CargoRepository;
 import com.example.ftc.customer.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -39,25 +40,14 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public void deleteOrder(Order order) {
+        orderRepository.delete(order);
+    }
+
+    @Override
     public Order findOrderByIdAndUserId(Long orderId, Long userId) {
-        Order order = orderRepository.findOrderByIdAndUserId(orderId, userId)
-                .orElseThrow(() -> new IllegalArgumentException("Order doesn't exists"));
+        Order order = orderRepository.findOrderByIdAndUserId(orderId, userId).orElse(null);
         return order;
     }
 
-
-    @Transactional
-    @Override
-    public void deleteOrderByIdAndUserId(Long orderId, Long userId) {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        if (order != null) {
-            if (order.getUser().getId().equals(userId)) {
-                cargoRepository.deleteAllByOrderId(orderId);
-                orderRepository.delete(order);
-            } else {
-                throw new IllegalArgumentException("Order doesn't exist");
-            }
-        }
-
-    }
 }

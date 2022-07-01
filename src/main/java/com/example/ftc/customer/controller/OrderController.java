@@ -8,6 +8,7 @@ import com.example.ftc.customer.converter.UserToUserCommand;
 import com.example.ftc.customer.domain.Cargo;
 import com.example.ftc.customer.domain.Order;
 import com.example.ftc.customer.domain.User;
+import com.example.ftc.customer.exception.OrderNotFoundException;
 import com.example.ftc.customer.service.CargoService;
 import com.example.ftc.customer.service.OrderService;
 import com.example.ftc.customer.service.UserService;
@@ -50,10 +51,14 @@ public class OrderController {
         return "redirect:/user";
     }
 
-
+    //todo make exception if order for this user doesn't exists
     @PostMapping("/user/order/{orderId}/delete")
     public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
-        orderService.deleteOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        if (order == null) {
+            throw new OrderNotFoundException(orderId);
+        }
+        orderService.deleteOrder(order);
         return "redirect:/user";
     }
 
@@ -61,6 +66,9 @@ public class OrderController {
     @GetMapping("user/order/{orderId}/details")
     public String getOrderUpdateView(@PathVariable Long orderId, HttpServletRequest request, Model model) {
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        if (order == null) {
+            throw new OrderNotFoundException(orderId);
+        }
         OrderCommand orderCommand = orderToOrderCommand.convert(order);
         Iterable<Cargo> cargoes = cargoService.findAllByOrderId(orderId);
         Set<CargoCommand> cargoCommands = new HashSet<>();
