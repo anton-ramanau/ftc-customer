@@ -1,8 +1,14 @@
 package com.example.ftc.customer.exception;
 
-public class OrderNotFoundException extends Exception {
+import lombok.Getter;
 
-    public OrderNotFoundException() {
+@Getter
+public class OrderNotFoundException extends RuntimeException {
+
+    private final Long orderId;
+
+    public OrderNotFoundException(Long orderId) {
         super("Order not found");
+        this.orderId = orderId;
     }
 }
