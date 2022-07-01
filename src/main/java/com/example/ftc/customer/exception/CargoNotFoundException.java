@@ -1,8 +1,17 @@
 package com.example.ftc.customer.exception;
 
-public class CargoNotFoundException extends Exception{
+import lombok.Getter;
 
-    public CargoNotFoundException() {
+@Getter
+public class CargoNotFoundException extends RuntimeException{
+
+    private final Long cargoId;
+    private final Long orderId;
+
+    private CargoNotFoundException(Long cargoId, Long orderId) {
         super("Cargo not found");
+        this.cargoId = cargoId;
+        this.orderId = orderId;
     }
+
 }
