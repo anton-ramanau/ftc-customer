@@ -6,9 +6,9 @@ public interface CargoService {
 
     void saveCargo(Cargo cargo, Long orderId, Long userId);
 
-    Iterable<Cargo> findAllByOrderId(Long orderId);
+    Iterable<Cargo> findAllByOrderIdAndUserId(Long orderId, Long userId);
 
-    void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId);
+    void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId, Long userId);
 
-    Cargo findCargoByIdAndOrder(Long cargoId, Long orderId);
+    Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId);
 }

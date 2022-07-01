@@ -3,11 +3,13 @@ package com.example.ftc.customer.service;
 import com.example.ftc.customer.converter.CargoToCargoCommand;
 import com.example.ftc.customer.domain.Cargo;
 import com.example.ftc.customer.domain.Order;
+import com.example.ftc.customer.exception.CargoNotFoundException;
+import com.example.ftc.customer.exception.OrderNotFoundException;
 import com.example.ftc.customer.repository.CargoRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CargoServiceImpl implements CargoService{
+public class CargoServiceImpl implements CargoService {
     private final CargoToCargoCommand cargoToCargoCommand;
     private final OrderService orderService;
     private final CargoRepository cargoRepository;
@@ -23,57 +25,64 @@ public class CargoServiceImpl implements CargoService{
         if (cargo == null) {
             throw new NullPointerException("Cargo is null");
         }
-        //todo optimise checking access session user to order
-        Order order = orderService.findOrderByIdAndUserId(orderId, userId);
         if (cargo.getId() == null) {
+            Order order = orderService.findOrderByIdAndUserId(orderId, userId);
+            if (order == null) {
+                throw new OrderNotFoundException(orderId);
+            }
             cargo.setOrder(order);
             cargoRepository.save(cargo);
         } else {
             Cargo cargoFromDB = cargoRepository.findById(cargo.getId()).orElse(null);
-            if (cargoFromDB != null) {
-                if (cargoFromDB.getOrder().getId().equals(order.getId())) {
-                    //todo update eachfield
-                    cargoFromDB.setCargoType(cargo.getCargoType());
-                    cargoFromDB.setCargoSize(cargo.getCargoSize());
-                    cargoFromDB.setCargoType(cargo.getCargoType());
-                    cargoFromDB.setId(cargo.getId());
-                    cargoFromDB.setDescription(cargo.getDescription());
-                    cargoFromDB.setLoadAddress(cargo.getLoadAddress());
-                    cargoFromDB.setUnloadAddress(cargo.getUnloadAddress());
-                    cargoFromDB.setLoadCustom(cargo.getLoadCustom());
-                    cargoFromDB.setUnloadCustom(cargo.getUnloadCustom());
-                    cargoFromDB.setLoadDate(cargo.getLoadDate());
-                    cargoFromDB.setUnloadDate(cargo.getUnloadDate());
-                    cargoFromDB.setOrder(order);
-                    cargoRepository.save(cargoFromDB);
-                } else {
-                    throw new IllegalArgumentException("Order is not owner of cargo");
-                }
-            } else {
-                throw new NullPointerException("Cargo doesn't exists");
+            if (cargoFromDB == null) {
+                throw new CargoNotFoundException(cargo.getId(), orderId);
             }
+            if (!cargoFromDB.getOrder().getId().equals(orderId)) {
+                throw new OrderNotFoundException(orderId);
+            }
+            cargoFromDB.setCargoType(cargo.getCargoType());
+            cargoFromDB.setCargoSize(cargo.getCargoSize());
+            cargoFromDB.setCargoType(cargo.getCargoType());
+            cargoFromDB.setId(cargo.getId());
+            cargoFromDB.setDescription(cargo.getDescription());
+            cargoFromDB.setLoadAddress(cargo.getLoadAddress());
+            cargoFromDB.setUnloadAddress(cargo.getUnloadAddress());
+            cargoFromDB.setLoadCustom(cargo.getLoadCustom());
+            cargoFromDB.setUnloadCustom(cargo.getUnloadCustom());
+            cargoFromDB.setLoadDate(cargo.getLoadDate());
+            cargoFromDB.setUnloadDate(cargo.getUnloadDate());
+            cargoRepository.save(cargoFromDB);
         }
     }
 
     @Override
-    public Iterable<Cargo> findAllByOrderId(Long orderId) {
+    public Iterable<Cargo> findAllByOrderIdAndUserId(Long orderId, Long userId) {
+        Order order = orderService.findOrderByIdAndUserId(orderId, userId);
+        if (order == null) {
+            throw new OrderNotFoundException(orderId);
+        }
         Iterable<Cargo> cargos = cargoRepository.findAllByOrderId(orderId);
-        if (cargos != null) {
-            return cargos;
-        } else {
-            throw new NullPointerException("Cargoes didn't find");
+        return cargos;
+    }
+
+    @Override
+    public void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId, Long userId) {
+        Cargo cargo = findCargoByIdAndOrder(cargoId, orderId, userId);
+        cargoRepository.delete(cargo);
+    }
+
+    @Override
+    public Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId) {
+        Cargo cargo = cargoRepository.findById(cargoId).orElse(null);
+        if (cargo == null) {
+            throw new CargoNotFoundException(cargoId, orderId);
         }
-    }
-
-    @Override
-    public void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId) {
-            cargoRepository.deleteCargoByIdAndOrderId(cargoId, orderId);
-    }
-
-    //todo do something mit user access
-    @Override
-    public Cargo findCargoByIdAndOrder(Long cargoId, Long orderId) {
-        return cargoRepository.findCargoByIdAndOrderId(cargoId, orderId)
-                .orElseThrow(() -> new NullPointerException("Cargo doesn't exists"));
+        if (!cargo.getOrder().getId().equals(orderId)) {
+            throw new OrderNotFoundException(orderId);
+        }
+        if (!cargo.getOrder().getUser().getId().equals(userId)) {
+            throw new OrderNotFoundException(orderId);
+        }
+        return cargo;
     }
 }

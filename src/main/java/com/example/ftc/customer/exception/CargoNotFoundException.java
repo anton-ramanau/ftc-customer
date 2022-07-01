@@ -8,7 +8,7 @@ public class CargoNotFoundException extends RuntimeException{
     private final Long cargoId;
     private final Long orderId;
 
-    private CargoNotFoundException(Long cargoId, Long orderId) {
+    public CargoNotFoundException(Long cargoId, Long orderId) {
         super("Cargo not found");
         this.cargoId = cargoId;
         this.orderId = orderId;

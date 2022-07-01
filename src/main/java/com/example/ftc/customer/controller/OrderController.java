@@ -51,7 +51,6 @@ public class OrderController {
         return "redirect:/user";
     }
 
-    //todo make exception if order for this user doesn't exists
     @PostMapping("/user/order/{orderId}/delete")
     public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
@@ -62,7 +61,6 @@ public class OrderController {
         return "redirect:/user";
     }
 
-    //todo PostController for updating orderData
     @GetMapping("user/order/{orderId}/details")
     public String getOrderUpdateView(@PathVariable Long orderId, HttpServletRequest request, Model model) {
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
@@ -70,7 +68,7 @@ public class OrderController {
             throw new OrderNotFoundException(orderId);
         }
         OrderCommand orderCommand = orderToOrderCommand.convert(order);
-        Iterable<Cargo> cargoes = cargoService.findAllByOrderId(orderId);
+        Iterable<Cargo> cargoes = cargoService.findAllByOrderIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
         Set<CargoCommand> cargoCommands = new HashSet<>();
         cargoes.forEach((c) -> cargoCommands.add(cargoToCargoCommand.convert(c)));
         model.addAttribute("order", orderCommand);

@@ -55,11 +55,7 @@ public class CargoController {
 
     @PostMapping("/cargo/{cargoId}/delete")
     public String deleteCargo(@PathVariable Long orderId, HttpServletRequest request, @PathVariable Long cargoId) {
-        if (orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request)) != null) {
-            cargoService.deleteCargoByCargoIdAndOrderId(cargoId, orderId);
-        } else {
-            throw new RuntimeException("Choosed order not found");
-        }
+        cargoService.deleteCargoByCargoIdAndOrderId(cargoId, orderId, ServerUtils.getSessionUserId(request));
         return "redirect:/user/order/" + orderId + "/details";
     }
 
@@ -67,7 +63,7 @@ public class CargoController {
     public String getUpdateView(@PathVariable Long orderId, HttpServletRequest request, @PathVariable Long cargoId, Model model) {
         //todo with user access
         Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
-        Cargo cargo = cargoService.findCargoByIdAndOrder(cargoId, orderId);
+        Cargo cargo = cargoService.findCargoByIdAndOrder(cargoId, orderId, ServerUtils.getSessionUserId(request));
         model.addAttribute("cargo", cargoToCargoCommand.convert(cargo));
         Set<CargoType> cargoTypes = cargoTypeService.findAll();
         model.addAttribute("cargoTypes", cargoTypes);
