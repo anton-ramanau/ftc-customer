@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -24,9 +25,11 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username")
+    @Size(min = 3, max = 15)
     private String username;
 
     @Column(name = "password")
+    @Size (min = 5, max = 15)
     private String password;
 
     @Column(name = "active")

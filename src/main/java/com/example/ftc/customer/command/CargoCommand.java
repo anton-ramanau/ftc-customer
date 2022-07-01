@@ -8,6 +8,8 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -20,15 +22,19 @@ public class CargoCommand {
     }
 
     private Long id;
+
+    @NotNull
     private CargoType cargoType;
     private String cargoSize;
     private String loadAddress;
     private String unloadAddress;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Future
     private LocalDateTime loadDate;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Future
     private LocalDateTime unloadDate;
     private String loadCustom;
     private String unloadCustom;
