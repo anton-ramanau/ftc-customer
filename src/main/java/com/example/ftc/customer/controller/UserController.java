@@ -34,12 +34,11 @@ public class UserController {
 
     @GetMapping("/user")
     public String userMain(HttpServletRequest request, Model model) {
-        Long userId = ServerUtils.getSessionUserId(request);
-        Iterable<Order> orders = orderService.findOrdersByUserId(ServerUtils.getSessionUserId(request));
+        User user = userService.findUserById(ServerUtils.getSessionUserId(request));
+        Iterable<Order> orders = orderService.findOrdersByUserId(user.getId());
         Set<OrderCommand> orderCommands = new HashSet<>();
         orders.forEach(order -> orderCommands.add(orderToOrderCommand.convert(order)));
         model.addAttribute("orders", orders);
-        User user = userService.findUserById(userId);
         UserCommand userCommand = userToUserCommand.convert(user);
         model.addAttribute("user", userCommand);
         return "user/index";
