@@ -16,7 +16,9 @@
     </div>
     <div class="row">
       <div class="col-8">
-        <form th:action="@{'/user/order/' + ${orderId} + '/cargo/' + ${cargo.id} + '/update'}" method="post" th:object="${cargo}">
+        <form th:action="@{'/user/order/cargo/update'}" method="post" th:object="${cargo}">
+          <input type="hidden" th:field="${cargo.order.id}">
+          <input type="hidden" th:field="*{id}">
           <div class="form-group row">
             <label class="col-form-label col-2">Cargo type:</label>
             <div class="col-3">
@@ -80,7 +82,7 @@
       </div>
     </div>
     <div class="row mb-4 ml-0">
-      <a class="btn btn-info" type="submit" th:href="@{'/user/order/' + ${orderId} + '/details'}">Back</a>
+      <a class="btn btn-info" type="submit" th:href="@{'/user/order/' + ${cargo.order.id} + '/details'}">Back</a>
     </div>
   </div>
 </main>

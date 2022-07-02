@@ -6,12 +6,10 @@ import lombok.Getter;
 public class CargoNotFoundException extends RuntimeException{
 
     private final Long cargoId;
-    private final Long orderId;
 
-    public CargoNotFoundException(Long cargoId, Long orderId) {
+    public CargoNotFoundException(Long cargoId) {
         super("Cargo not found");
         this.cargoId = cargoId;
-        this.orderId = orderId;
     }
 
 }

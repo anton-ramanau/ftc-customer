@@ -44,9 +44,9 @@
                     <td th:text="${#temporals.format(cargo.unloadDate, 'dd-MM-yyyy HH:mm')}">Unload date</td>
                     <td th:text="${cargo.description}">Description</td>
                     <td>
-                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/update'}">update</a>
+                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/cargo/' + ${cargo.id} + '/update'}">update</a>
                     </td>
-                    <td><form th:action="@{'/user/order/' + ${order.id} + '/cargo/' + ${cargo.id} + '/delete'}"
+                    <td><form th:action="@{'/user/order/cargo/' + ${cargo.id} + '/delete'}"
                               method="post">
                         <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                     </form>

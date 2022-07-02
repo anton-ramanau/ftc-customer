@@ -20,11 +20,13 @@ public class ExceptionControllerAdvice {
         return modelAndView;
     }
 
+
+    //todo solve view
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(CargoNotFoundException.class)
     public ModelAndView cargoExceptionHandlerView(CargoNotFoundException exception) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("orderId", exception.getOrderId());
+        modelAndView.addObject("orderId");
         modelAndView.setViewName("error/errorCargo");
         return modelAndView;
     }

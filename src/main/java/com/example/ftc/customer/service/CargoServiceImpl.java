@@ -32,7 +32,7 @@ public class CargoServiceImpl implements CargoService {
         } else {
             Cargo cargoFromDB = cargoRepository.findById(cargo.getId()).orElse(null);
             if (cargoFromDB == null) {
-                throw new CargoNotFoundException(cargo.getId(), orderId);
+                throw new CargoNotFoundException(cargo.getId());
             }
             if (!cargoFromDB.getOrder().getId().equals(orderId) && !cargoFromDB.getOrder().getUser().getId().equals(userId)) {
                 throw new OrderNotFoundException(orderId);
@@ -72,7 +72,7 @@ public class CargoServiceImpl implements CargoService {
     public Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId) {
         Cargo cargo = cargoRepository.findById(cargoId).orElse(null);
         if (cargo == null) {
-            throw new CargoNotFoundException(cargoId, orderId);
+            throw new CargoNotFoundException(cargoId);
         }
         if (!cargo.getOrder().getId().equals(orderId)) {
             throw new OrderNotFoundException(orderId);
@@ -91,5 +91,15 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Iterable<Cargo> findAllByOrderId(Long orderId) {
         return cargoRepository.findAllByOrderId(orderId);
+    }
+
+    @Override
+    public void save(Cargo cargo) {
+        cargoRepository.save(cargo);
+    }
+
+    @Override
+    public void delete(Cargo cargo) {
+        cargoRepository.delete(cargo);
     }
 }
