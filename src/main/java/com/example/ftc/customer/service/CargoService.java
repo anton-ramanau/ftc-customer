@@ -11,4 +11,6 @@ public interface CargoService {
     void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId, Long userId);
 
     Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId);
+
+    Cargo findCargoById(Long cargoId);
 }

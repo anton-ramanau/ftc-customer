@@ -82,4 +82,9 @@ public class CargoServiceImpl implements CargoService {
         }
         return cargo;
     }
+
+    @Override
+    public Cargo findCargoById(Long cargoId) {
+        return cargoRepository.findById(cargoId).orElse(null);
+    }
 }

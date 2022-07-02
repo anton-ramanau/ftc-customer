@@ -13,10 +13,7 @@ import com.example.ftc.customer.utils.ServerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.Validator;
+import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +30,9 @@ public class CargoController {
     private final CargoCommandToCargo cargoCommandToCargo;
     private final CargoToCargoCommand cargoToCargoCommand;
     private final CargoTypeService cargoTypeService;
-    private final Validator validator;
+    private final SmartValidator validator;
 
-    public CargoController(OrderService orderService, CargoService cargoService, CargoCommandToCargo cargoCommandToCargo, CargoToCargoCommand cargoToCargoCommand, CargoTypeService cargoTypeService, Validator validator) {
+    public CargoController(OrderService orderService, CargoService cargoService, CargoCommandToCargo cargoCommandToCargo, CargoToCargoCommand cargoToCargoCommand, CargoTypeService cargoTypeService, SmartValidator validator) {
         this.orderService = orderService;
         this.cargoService = cargoService;
         this.cargoCommandToCargo = cargoCommandToCargo;
@@ -89,7 +86,13 @@ public class CargoController {
 
     @PostMapping("/cargo/{cargoId}/update")
     public String updateCargo(CargoCommand cargoCommand, BindingResult bindingResult, @PathVariable Long orderId, @PathVariable Long cargoId, HttpServletRequest request, Model model) {
-        validator.validate(cargoCommand, bindingResult);
+        Cargo cargoDb = cargoService.findCargoById(cargoId);
+        if (cargoDb.getLoadDate() == null || !cargoDb.getLoadDate().equals(cargoCommand.getLoadDate())) {
+            validator.validateValue(CargoCommand.class, "loadDate", cargoCommand.getLoadDate(), bindingResult);
+        }
+        if (cargoDb.getUnloadDate() == null || !cargoDb.getUnloadDate().equals(cargoCommand.getUnloadDate())) {
+            validator.validateValue(CargoCommand.class, "unloadDate", cargoCommand.getUnloadDate(), bindingResult);
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorsLoadDate", bindingResult.getFieldErrors("loadDate"));
             model.addAttribute("errorsUnloadDate", bindingResult.getFieldErrors("unloadDate"));
