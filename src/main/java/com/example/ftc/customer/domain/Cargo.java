@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -49,6 +50,7 @@ public class Cargo {
     @Column(name = "description")
     private String description;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
