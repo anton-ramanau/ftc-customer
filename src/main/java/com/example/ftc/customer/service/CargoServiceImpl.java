@@ -21,69 +21,6 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public void saveCargo(Cargo cargo, Long orderId, Long userId) {
-        if (cargo.getId() == null) {
-            Order order = orderService.findOrderByIdAndUserId(orderId, userId);
-            if (order == null) {
-                throw new OrderNotFoundException(orderId);
-            }
-            cargo.setOrder(order);
-            cargoRepository.save(cargo);
-        } else {
-            Cargo cargoFromDB = cargoRepository.findById(cargo.getId()).orElse(null);
-            if (cargoFromDB == null) {
-                throw new CargoNotFoundException(cargo.getId());
-            }
-            if (!cargoFromDB.getOrder().getId().equals(orderId) && !cargoFromDB.getOrder().getUser().getId().equals(userId)) {
-                throw new OrderNotFoundException(orderId);
-            }
-            cargoFromDB.setCargoType(cargo.getCargoType());
-            cargoFromDB.setCargoSize(cargo.getCargoSize());
-            cargoFromDB.setCargoType(cargo.getCargoType());
-            cargoFromDB.setId(cargo.getId());
-            cargoFromDB.setDescription(cargo.getDescription());
-            cargoFromDB.setLoadAddress(cargo.getLoadAddress());
-            cargoFromDB.setUnloadAddress(cargo.getUnloadAddress());
-            cargoFromDB.setLoadCustom(cargo.getLoadCustom());
-            cargoFromDB.setUnloadCustom(cargo.getUnloadCustom());
-            cargoFromDB.setLoadDate(cargo.getLoadDate());
-            cargoFromDB.setUnloadDate(cargo.getUnloadDate());
-            cargoRepository.save(cargoFromDB);
-        }
-    }
-
-    @Override
-    public Iterable<Cargo> findAllByOrderIdAndUserId(Long orderId, Long userId) {
-        Order order = orderService.findOrderByIdAndUserId(orderId, userId);
-        if (order == null) {
-            throw new OrderNotFoundException(orderId);
-        }
-        Iterable<Cargo> cargos = cargoRepository.findAllByOrderId(orderId);
-        return cargos;
-    }
-
-    @Override
-    public void deleteCargoByCargoIdAndOrderId(Long cargoId, Long orderId, Long userId) {
-        Cargo cargo = findCargoByIdAndOrder(cargoId, orderId, userId);
-        cargoRepository.delete(cargo);
-    }
-
-    @Override
-    public Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId) {
-        Cargo cargo = cargoRepository.findById(cargoId).orElse(null);
-        if (cargo == null) {
-            throw new CargoNotFoundException(cargoId);
-        }
-        if (!cargo.getOrder().getId().equals(orderId)) {
-            throw new OrderNotFoundException(orderId);
-        }
-        if (!cargo.getOrder().getUser().getId().equals(userId)) {
-            throw new OrderNotFoundException(orderId);
-        }
-        return cargo;
-    }
-
-    @Override
     public Cargo findCargoById(Long cargoId) {
         return cargoRepository.findById(cargoId).orElse(null);
     }

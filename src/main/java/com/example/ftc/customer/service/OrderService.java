@@ -10,7 +10,5 @@ public interface OrderService {
 
     void deleteOrder(Order order);
 
-    Order findOrderByIdAndUserId(Long orderId, Long userId);
-
     Order findOrderById(Long orderId);
 }
