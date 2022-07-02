@@ -17,7 +17,8 @@
         </div>
         <div class="row">
             <div class="col-8">
-                <form th:action="@{'/user/order/' + ${orderId} + '/cargo/new'}" method="post" th:object="${cargo}">
+                <form th:action="@{'/user/order/cargo/new'}" method="post" th:object="${cargo}">
+                    <input type="hidden" th:value="${orderId}" name="orderId">
                     <div class="form-group row">
                         <label class="col-form-label col-2">Cargo type:</label>
                         <div class="col-3">

@@ -48,18 +48,18 @@ public class CargoController {
         this.userService = userService;
     }
 
-    @GetMapping("{orderId}/cargo/new")
+    @GetMapping("/{orderId}/cargo/new")
     public String getNewCargoView(@PathVariable Long orderId, Model model) {
         CargoCommand cargoCommand = new CargoCommand();
-        Set<CargoType> cargoTypes = cargoTypeService.findAll();
-        model.addAttribute("cargoTypes", cargoTypes);
         model.addAttribute("cargo", cargoCommand);
         model.addAttribute("orderId", orderId);
+        Set<CargoType> cargoTypes = cargoTypeService.findAll();
+        model.addAttribute("cargoTypes", cargoTypes);
         return "order/cargo/newCargo";
     }
 
-    @PostMapping("{orderId}/cargo/new")
-    public String addNewCargoView(@Valid CargoCommand cargoCommand, BindingResult bindingResult, @PathVariable Long orderId, HttpServletRequest request, Model model) {
+    @PostMapping("/cargo/new")
+    public String addNewCargoView(@Valid CargoCommand cargoCommand, BindingResult bindingResult, @RequestParam Long orderId, HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorsLoadDate", bindingResult.getFieldErrors("loadDate"));
             model.addAttribute("errorsUnloadDate", bindingResult.getFieldErrors("unloadDate"));
@@ -82,8 +82,8 @@ public class CargoController {
         return "redirect:/user/order/" + orderId + "/details";
     }
 
-    @PostMapping("/cargo/{cargoId}/delete")
-    public String deleteCargo(HttpServletRequest request, @PathVariable Long cargoId) {
+    @PostMapping("/cargo/delete")
+    public String deleteCargo(@RequestParam Long cargoId, HttpServletRequest request) {
         Cargo cargo = cargoService.findCargoById(cargoId);
         if (cargo == null) {
             throw new CargoNotFoundException(cargoId);
@@ -105,13 +105,14 @@ public class CargoController {
             throw new AccessForbiddenException();
         }
         model.addAttribute("cargo", cargoToCargoCommand.convert(cargo));
+        model.addAttribute("orderId", cargo.getOrder().getId());
         Set<CargoType> cargoTypes = cargoTypeService.findAll();
         model.addAttribute("cargoTypes", cargoTypes);
         return "order/cargo/cargoUpdate";
     }
 
     @PostMapping("/cargo/update")
-    public String updateCargo(CargoCommand cargoCommand, BindingResult bindingResult, HttpServletRequest request, Model model) {
+    public String updateCargo(CargoCommand cargoCommand, BindingResult bindingResult, @RequestParam Long orderId, HttpServletRequest request, Model model) {
         Cargo cargoDb = cargoService.findCargoById(cargoCommand.getId());
         if (cargoDb == null) {
             throw new CargoNotFoundException(cargoCommand.getId());
@@ -126,16 +127,20 @@ public class CargoController {
             model.addAttribute("errorsLoadDate", bindingResult.getFieldErrors("loadDate"));
             model.addAttribute("errorsUnloadDate", bindingResult.getFieldErrors("unloadDate"));
             model.addAttribute("cargo", cargoCommand);
+            model.addAttribute("orderId", orderId);
             Set<CargoType> cargoTypes = cargoTypeService.findAll();
             model.addAttribute("cargoTypes", cargoTypes);
             return "order/cargo/cargoUpdate";
+        }
+        if (!cargoDb.getOrder().getId().equals(orderId)) {
+            throw new OrderNotFoundException(orderId);
         }
         if (!cargoDb.getOrder().getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
             throw new AccessForbiddenException();
         }
         Cargo cargo = cargoCommandToCargo.convert(cargoCommand);
-        cargo.setOrder(cargoDb.getOrder()); //to make sure that someone don't add false order
+        cargo.setOrder(cargoDb.getOrder());
         cargoService.save(cargo);
-        return "redirect:/user/order/" + cargoDb.getOrder().getId() + "/details";
+        return "redirect:/user/order/" + orderId + "/details";
     }
 }

@@ -46,8 +46,8 @@
                     <td>
                         <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/cargo/' + ${cargo.id} + '/update'}">update</a>
                     </td>
-                    <td><form th:action="@{'/user/order/cargo/' + ${cargo.id} + '/delete'}"
-                              method="post">
+                    <td><form th:action="@{'/user/order/cargo/delete'}" th:object="${cargo}" method="post">
+                        <input type="hidden" th:value="*{id}" name="cargoId">
                         <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                     </form>
                     </td>
