@@ -2,6 +2,7 @@ package com.example.ftc.customer.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,7 +26,7 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     @NotNull
     @Size(min = 3, max = 15)
     private String username;

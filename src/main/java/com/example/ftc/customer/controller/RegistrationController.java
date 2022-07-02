@@ -47,6 +47,7 @@ public class RegistrationController {
             userService.save(user);
             return "redirect:/login";
         } else {
+            model.addAttribute("userExistsMessage", "User name exists choose other one");
             return "redirect:/registration";
         }
     }
