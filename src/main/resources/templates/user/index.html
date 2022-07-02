@@ -7,42 +7,61 @@
 <body>
 <main>
     <div class="container-fluid">
-        <div class="row mt-4 pb-3">
+        <div class="row mt-4 pb-3 ml-1">
             <div class="col-4">
                 <h3 th:text="${user.username}">User name</h3>
             </div>
         </div>
-        <div class="row pb-0">
+        <div class="row pb-0 ml-1">
             <div class="col-4">
                 <p class="h6">Orders</p>
             </div>
         </div>
-        <div class="row ">
-            <div class="col-6">
-            <table class="table table-sm table-hover" style="font-size: small">
-                <thead class="thead-dark">
+            <div class="col-10">
+            <table class="table table-hover" style="font-size: small">
+                <thead class="thead-dark text-center">
                 <tr>
-                    <th>order id</th>
-                    <th>order status</th>
-                    <th>order price</th>
                     <th>details</th>
                     <th>delete</th>
+                    <th>order status</th>
+                    <th>order price</th>
+                    <th>available cargoes</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order : ${orders}">
-                    <td th:text="${order.id}">order id</td>
-                    <td th:text="${order.orderStatus}">order status</td>
-                    <td th:text="${order.price}">order price</td>
+                <tr th:each="entry : ${orderCargoMap.entrySet()}">
                     <td>
-                        <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/details'}">details</a>
+                        <a class="btn btn-info" style="font-size: small"
+                           th:href="@{'/user/order/' + ${entry.getKey().id} + '/details'}">details</a>
                     </td>
                     <td>
-                        <form th:action="@{'/user/order/delete'}" th:object="${order}" method="post">
+                        <form th:action="@{'/user/order/delete'}" th:object="${entry.getKey()}" method="post">
                             <input type="hidden" th:value="*{id}" name="orderId">
                             <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                         </form>
                     </td>
+                        <td th:text="${entry.getKey().orderStatus}">order status</td>
+                        <td th:text="${entry.getKey().price}">order price</td>
+                        <td>
+                            <table class="table" th:if="${!entry.getValue().isEmpty()}">
+                                <thead class="thead-dark" style="font-size: smaller">
+                                <tr>
+                                <th>loading</th>
+                                <th>unloading</th>
+                                <th>load date</th>
+                                <th>unloading date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="cargo : ${entry.getValue()}">
+                                <td th:text="${cargo.loadAddress}">loading</td>
+                                <td th:text="${cargo.unloadAddress}">unloading</td>
+                                <td th:text="${cargo.loadDate}">load date</td>
+                                <td th:text="${cargo.unloadDate}">unload date</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
                 </tr>
                 </tbody>
             </table>

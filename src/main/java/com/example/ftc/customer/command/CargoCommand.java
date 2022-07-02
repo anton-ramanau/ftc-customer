@@ -2,6 +2,7 @@ package com.example.ftc.customer.command;
 
 import com.example.ftc.customer.domain.CargoType;
 import com.example.ftc.customer.domain.Order;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class CargoCommand {
 
     public CargoCommand() {
