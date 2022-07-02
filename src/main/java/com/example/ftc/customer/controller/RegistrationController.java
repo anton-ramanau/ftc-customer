@@ -29,8 +29,6 @@ public class RegistrationController {
         return "login/registration";
     }
 
-    //todo: check user name without upper chars
-    //todo: return to view password error
     @PostMapping("/registration")
     public String createNewUser(@Valid User user, BindingResult bindingResult, @RequestParam("password-rep") String passwordRep, Model model) {
         if (bindingResult.hasErrors()) {
