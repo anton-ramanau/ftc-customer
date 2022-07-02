@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
@@ -52,16 +53,16 @@ public class OrderController {
         return "redirect:/user";
     }
 
-    @PostMapping("/user/order/{orderId}/delete")
-    public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
-        Order order = orderService.findOrderById(orderId);
-        if (order == null) {
+    @PostMapping("/user/order/delete")
+    public String deleteOrder(@RequestParam Long orderId, HttpServletRequest request) {
+        Order orderDB = orderService.findOrderById(orderId);
+        if (orderDB == null) {
             throw new OrderNotFoundException(orderId);
         }
-        if (!order.getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
+        if (!orderDB.getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
             throw new AccessForbiddenException();
         }
-        orderService.deleteOrder(order);
+        orderService.deleteOrder(orderDB);
         return "redirect:/user";
     }
 

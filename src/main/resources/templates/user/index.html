@@ -19,7 +19,6 @@
         </div>
         <div class="row ">
             <div class="col-6">
-
             <table class="table table-sm table-hover" style="font-size: small">
                 <thead class="thead-dark">
                 <tr>
@@ -39,7 +38,8 @@
                         <a class="btn btn-info" style="font-size: small" th:href="@{'/user/order/' + ${order.id} + '/details'}">update</a>
                     </td>
                     <td>
-                        <form th:action="@{'/user/order/' + ${order.id} + '/delete'}" method="post">
+                        <form th:action="@{'/user/order/delete'}" th:object="${order}" method="post">
+                            <input type="hidden" th:value="*{id}" name="orderId">
                             <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                         </form>
                     </td>
