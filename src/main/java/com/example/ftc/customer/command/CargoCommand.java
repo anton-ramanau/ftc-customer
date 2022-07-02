@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,12 +30,12 @@ public class CargoCommand {
     private String loadAddress;
     private String unloadAddress;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Future
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime loadDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Future
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime unloadDate;
     private String loadCustom;
     private String unloadCustom;

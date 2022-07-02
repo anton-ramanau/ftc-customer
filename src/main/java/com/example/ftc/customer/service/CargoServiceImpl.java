@@ -22,9 +22,6 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public void saveCargo(Cargo cargo, Long orderId, Long userId) {
-        if (cargo == null) {
-            throw new NullPointerException("Cargo is null");
-        }
         if (cargo.getId() == null) {
             Order order = orderService.findOrderByIdAndUserId(orderId, userId);
             if (order == null) {
@@ -37,7 +34,7 @@ public class CargoServiceImpl implements CargoService {
             if (cargoFromDB == null) {
                 throw new CargoNotFoundException(cargo.getId(), orderId);
             }
-            if (!cargoFromDB.getOrder().getId().equals(orderId)) {
+            if (!cargoFromDB.getOrder().getId().equals(orderId) && !cargoFromDB.getOrder().getUser().getId().equals(userId)) {
                 throw new OrderNotFoundException(orderId);
             }
             cargoFromDB.setCargoType(cargo.getCargoType());
