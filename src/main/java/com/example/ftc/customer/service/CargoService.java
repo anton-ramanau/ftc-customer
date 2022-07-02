@@ -12,4 +12,5 @@ public interface CargoService {
 
     void delete(Cargo cargo);
 
+    void deleteAllByOrderId(Long orderId);
 }

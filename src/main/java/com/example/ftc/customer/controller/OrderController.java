@@ -62,6 +62,7 @@ public class OrderController {
         if (!orderDB.getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
             throw new AccessForbiddenException();
         }
+        cargoService.deleteAllByOrderId(orderId);
         orderService.deleteOrder(orderDB);
         return "redirect:/user";
     }
