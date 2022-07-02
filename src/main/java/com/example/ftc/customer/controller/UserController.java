@@ -35,9 +35,6 @@ public class UserController {
     @GetMapping("/user")
     public String userMain(HttpServletRequest request, Model model) {
         User user = userService.findUserById(ServerUtils.getSessionUserId(request));
-        if (user == null) {
-            throw new RuntimeException("Session user could not be found in database :(");
-        }
         Iterable<Order> orders = orderService.findOrdersByUserId(user.getId());
         Set<OrderCommand> orderCommands = new HashSet<>();
         orders.forEach(order -> orderCommands.add(orderToOrderCommand.convert(order)));

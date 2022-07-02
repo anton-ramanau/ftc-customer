@@ -12,4 +12,5 @@ public interface OrderService {
 
     Order findOrderByIdAndUserId(Long orderId, Long userId);
 
+    Order findOrderById(Long orderId);
 }

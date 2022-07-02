@@ -8,6 +8,7 @@ import com.example.ftc.customer.converter.UserToUserCommand;
 import com.example.ftc.customer.domain.Cargo;
 import com.example.ftc.customer.domain.Order;
 import com.example.ftc.customer.domain.User;
+import com.example.ftc.customer.exception.AccessForbiddenException;
 import com.example.ftc.customer.exception.OrderNotFoundException;
 import com.example.ftc.customer.service.CargoService;
 import com.example.ftc.customer.service.OrderService;
@@ -44,8 +45,8 @@ public class OrderController {
     //todo: make possibility to create order with data
     @PostMapping("/user/order/new")
     public String createNewOrder(HttpServletRequest request) {
-        Order order = new Order();
         User user = userService.findUserById(ServerUtils.getSessionUserId(request));
+        Order order = new Order();
         order.setUser(user);
         orderService.saveOrder(order);
         return "redirect:/user";
@@ -53,9 +54,12 @@ public class OrderController {
 
     @PostMapping("/user/order/{orderId}/delete")
     public String deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
-        Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        Order order = orderService.findOrderById(orderId);
         if (order == null) {
             throw new OrderNotFoundException(orderId);
+        }
+        if (!order.getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
+            throw new AccessForbiddenException();
         }
         orderService.deleteOrder(order);
         return "redirect:/user";
@@ -63,12 +67,15 @@ public class OrderController {
 
     @GetMapping("user/order/{orderId}/details")
     public String getOrderUpdateView(@PathVariable Long orderId, HttpServletRequest request, Model model) {
-        Order order = orderService.findOrderByIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        Order order = orderService.findOrderById(orderId);
         if (order == null) {
             throw new OrderNotFoundException(orderId);
         }
+        if (!order.getUser().getId().equals(ServerUtils.getSessionUserId(request))) {
+            throw new AccessForbiddenException();
+        }
         OrderCommand orderCommand = orderToOrderCommand.convert(order);
-        Iterable<Cargo> cargoes = cargoService.findAllByOrderIdAndUserId(orderId, ServerUtils.getSessionUserId(request));
+        Iterable<Cargo> cargoes = cargoService.findAllByOrderId(order.getId());
         Set<CargoCommand> cargoCommands = new HashSet<>();
         cargoes.forEach((c) -> cargoCommands.add(cargoToCargoCommand.convert(c)));
         model.addAttribute("order", orderCommand);

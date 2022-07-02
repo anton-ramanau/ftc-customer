@@ -87,4 +87,9 @@ public class CargoServiceImpl implements CargoService {
     public Cargo findCargoById(Long cargoId) {
         return cargoRepository.findById(cargoId).orElse(null);
     }
+
+    @Override
+    public Iterable<Cargo> findAllByOrderId(Long orderId) {
+        return cargoRepository.findAllByOrderId(orderId);
+    }
 }

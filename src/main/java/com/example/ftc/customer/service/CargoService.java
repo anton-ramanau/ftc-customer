@@ -13,4 +13,6 @@ public interface CargoService {
     Cargo findCargoByIdAndOrder(Long cargoId, Long orderId, Long userId);
 
     Cargo findCargoById(Long cargoId);
+
+    Iterable<Cargo> findAllByOrderId(Long orderId);
 }
