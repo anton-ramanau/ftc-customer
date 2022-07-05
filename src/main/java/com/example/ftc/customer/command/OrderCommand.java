@@ -17,6 +17,7 @@ public class OrderCommand {
     }
 
     private Long id;
+    private String name;
     private UserCommand user;
     private OrderStatus orderStatus;
     private Double price;

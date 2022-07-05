@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,9 @@ public class Order {
     @JoinColumn(name = "user_id")
     @NotNull
     private User user;
+
+    @NotBlank
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
