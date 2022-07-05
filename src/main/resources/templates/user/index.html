@@ -7,32 +7,32 @@
 <body>
 <main>
     <div class="container-fluid">
-        <div class="row mt-4 pb-3 ml-1">
-            <div class="col-4">
+        <div class="row mt-2  ml- justify-content-end">
+            <div class="col-3 text-right">
                 <h3 th:text="${user.username}">User name</h3>
             </div>
         </div>
-        <div class="row pb-0 ml-1">
-            <div class="col-4">
-                <p class="h6">Orders</p>
+        <div class="row justify-content-end">
+            <div class="col-3 text-right">
+                <a class="btn btn-outline-info" th:href="@{/logout}">logout</a>
             </div>
         </div>
-            <div class="col-10">
+        <div class="row mt-3">
             <table class="table table-hover" style="font-size: small">
-                <thead class="thead-dark text-center">
+                <thead class="thead-dark text-center row-cols-5">
                 <tr>
-                    <th>details</th>
-                    <th>delete</th>
-                    <th>order status</th>
-                    <th>order price</th>
+                    <th style="width: 110px">update order</th>
+                    <th style="width: 110px">delete order</th>
+                    <th style="width: 110px">order status</th>
+                    <th style="width: 100px">order price</th>
                     <th>available cargoes</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                 <tr th:each="entry : ${orderCargoMap.entrySet()}">
                     <td>
                         <a class="btn btn-info" style="font-size: small"
-                           th:href="@{'/user/order/' + ${entry.getKey().id} + '/details'}">details</a>
+                           th:href="@{'/user/order/' + ${entry.getKey().id} + '/details'}">update</a>
                     </td>
                     <td>
                         <form th:action="@{'/user/order/delete'}" th:object="${entry.getKey()}" method="post">
@@ -56,8 +56,8 @@
                                 <tr th:each="cargo : ${entry.getValue()}">
                                 <td th:text="${cargo.loadAddress}">loading</td>
                                 <td th:text="${cargo.unloadAddress}">unloading</td>
-                                <td th:text="${cargo.loadDate}">load date</td>
-                                <td th:text="${cargo.unloadDate}">unload date</td>
+                                <td th:text="${#temporals.format(cargo.loadDate, 'dd-MM-yyy HH:mm')}">load date</td>
+                                <td th:text="${#temporals.format(cargo.unloadDate, 'dd-MM-yyy HH:mm')}">unload date</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -69,7 +69,6 @@
                     <button class="btn btn-info" style="font-size: small" type="submit">New order</button>
                 </form>
             </div>
-        </div>
     </div>
 </main>
 </body>
