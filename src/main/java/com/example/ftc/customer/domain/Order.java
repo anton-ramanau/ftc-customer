@@ -30,7 +30,7 @@ public class Order {
     @NotNull
     private User user;
 
-    @NotBlank
+    @Column(name = "name")
     private String name;
 
     @Enumerated(EnumType.STRING)
