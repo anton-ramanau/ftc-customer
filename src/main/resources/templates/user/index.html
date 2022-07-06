@@ -23,6 +23,7 @@
                 <tr>
                     <th style="width: 110px">update order</th>
                     <th style="width: 110px">delete order</th>
+                    <th style="width: 110px">order name</th>
                     <th style="width: 110px">order status</th>
                     <th style="width: 100px">order price</th>
                     <th>available cargoes</th>
@@ -40,6 +41,7 @@
                             <button class="btn btn-info" style="font-size: small" type="submit">delete</button>
                         </form>
                     </td>
+                        <td th:text="${entry.getKey().name}">order name</td>
                         <td th:text="${entry.getKey().orderStatus}">order status</td>
                         <td th:text="${entry.getKey().price}">order price</td>
                         <td>
@@ -65,9 +67,11 @@
                 </tr>
                 </tbody>
             </table>
-                <form th:action="@{/user/order/new}" method="post">
-                    <button class="btn btn-info" style="font-size: small" type="submit">New order</button>
-                </form>
+            </div>
+            <div class="row mb-4">
+                <div class="col-3">
+                    <a th:href="@{/user/order/new}" class="btn btn-info" style="font-size: small" type="submit">New order</a>
+                </div>
             </div>
     </div>
 </main>

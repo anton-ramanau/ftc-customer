@@ -51,13 +51,15 @@ public class OrderController {
     @GetMapping("/user/order/new")
     public String getNewOrderView(Model model) {
         OrderCommand orderCommand = new OrderCommand();
-        model.addAttribute("order");
+        model.addAttribute("order", orderCommand);
         return "/order/orderNew";
     }
 
     @PostMapping("/user/order/new")
-    public String createNewOrder(@Valid OrderCommand orderCommand, BindingResult bindingResult, HttpServletRequest request) {
+    public String createNewOrder(@Valid OrderCommand orderCommand, BindingResult bindingResult, HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("order", orderCommand);
+            model.addAttribute("nameErrors", bindingResult.getFieldErrors("name"));
             return "/order/orderNew";
         }
         User user = userService.findUserById(ServerUtils.getSessionUserId(request));

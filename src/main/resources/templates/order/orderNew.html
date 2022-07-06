@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet"/>
-    <title>Order Update </title>
+    <title>Order new </title>
 </head>
 <body>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-4">
+                <h1 class="h4">New order</h1>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-8">
+                <form th:action="@{/user/order/new}" method="post" th:object="${order}">
+                    <div class="form-group row">
+                        <label class="col-form-label col-3">Order/contract name</label>
+                        <input class="form-control col-5"  type="text" th:field="*{name}">
+                    </div>
+                    <div th:if="${nameErrors} != null" th:each="error : ${nameErrors}" class="row">
+                        <div class="col-3"></div>
+                        <div class="col-5">
+                            <label style="color: darkred" th:text="${error}">errors</label>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-4">
+                            <button class="btn btn-info" type="submit">create order</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-4">
+                <a class="btn btn-info" th:href="@{/user}">Back</a>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
