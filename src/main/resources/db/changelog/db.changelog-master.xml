@@ -17,5 +17,6 @@
             <tagDatabase tag="init"/>
     </changeSet>
 
+    <include file="changelog-v.1.0.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

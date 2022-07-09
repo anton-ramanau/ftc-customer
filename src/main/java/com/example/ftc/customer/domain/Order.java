@@ -25,7 +25,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     @NotNull
     private User user;
