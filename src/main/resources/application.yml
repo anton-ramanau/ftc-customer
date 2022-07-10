@@ -5,11 +5,13 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 #      dialect: org.hibernate.dialect.PostgreSQL95Dialect
     properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
 logging:
   level:
     com: debug
