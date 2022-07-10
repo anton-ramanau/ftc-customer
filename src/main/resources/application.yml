@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ftc_customer_db
-    username: root
-    password: password
+    url: jdbc:postgresql://${POSTGRES_URL}:${POSTGRES_PORT}/ftc_customer_db
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate

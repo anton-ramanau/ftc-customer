@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>ftc-customer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v.1.0</version>
 	<name>ftc-customer</name>
 	<description>ftc-customer</description>
 	<properties>
@@ -78,7 +78,10 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.5.0</version>
 				<configuration>
-					<propertyFile>${basedir}/src/main/resources/liquibase.properties</propertyFile>
+					<changeLogFile>${basedir}/src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+					<url>jdbc:postgresql://${env.POSTGRES_URL}:${env.POSTGRES_PORT}/ftc_customer_db</url>
+					<username>username=${env.POSTGRES_USERNAME}</username>
+					<password>${env.POSTGRES_PASSWORD}</password>
 				</configuration>
 			</plugin>
 			<plugin>
