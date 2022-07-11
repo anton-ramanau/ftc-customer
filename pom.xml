@@ -80,7 +80,7 @@
 				<configuration>
 					<changeLogFile>${basedir}/src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
 					<url>jdbc:postgresql://${env.POSTGRES_URL}:${env.POSTGRES_PORT}/ftc_customer_db</url>
-					<username>username=${env.POSTGRES_USERNAME}</username>
+					<username>${env.POSTGRES_USERNAME}</username>
 					<password>${env.POSTGRES_PASSWORD}</password>
 				</configuration>
 			</plugin>
